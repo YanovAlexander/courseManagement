@@ -1,0 +1,6 @@
+*.iml
+\target
+\.gradle
+\.idea
+\build
+\out
