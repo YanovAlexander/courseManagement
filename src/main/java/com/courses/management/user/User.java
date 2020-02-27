@@ -1,15 +1,18 @@
 package com.courses.management.user;
 
+import com.courses.management.common.BaseEntity;
 import com.courses.management.course.Course;
+import com.courses.management.course.Homework;
 
 import java.util.List;
 
-public class User {
+public class User extends BaseEntity {
     private String firstName;
     private String lastName;
     private String email;
     private UserRole userRole;
-    private List<Course> groups;
+    private Course course;
+    private List<Homework> homework;
 
     public User() {
 
@@ -47,11 +50,19 @@ public class User {
         this.userRole = userRole;
     }
 
-    public List<Course> getGroups() {
-        return groups;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setGroups(List<Course> groups) {
-        this.groups = groups;
+    public void setGroups(Course course) {
+        this.course = course;
+    }
+
+    public List<Homework> getHomework() {
+        return homework;
+    }
+
+    public void setHomework(List<Homework> homework) {
+        this.homework = homework;
     }
 }

@@ -1,4 +1,6 @@
 package com.courses.management.course;
 
-public class Calendar {
+import com.courses.management.common.BaseEntity;
+
+public class Calendar extends BaseEntity {
 }
