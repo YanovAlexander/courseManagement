@@ -11,6 +11,7 @@ public class User extends BaseEntity {
     private String lastName;
     private String email;
     private UserRole userRole;
+    private UserStatus status;
     private Course course;
     private List<Homework> homework;
 
@@ -64,5 +65,13 @@ public class User extends BaseEntity {
 
     public void setHomework(List<Homework> homework) {
         this.homework = homework;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
     }
 }

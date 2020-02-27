@@ -8,7 +8,7 @@ import java.util.List;
 public class Course extends BaseEntity {
     private String title;
     private List<User> users;
-    private Status status;
+    private CourseStatus courseStatus;
     private Calendar calendar;
     private List<Homework> homework;
 
@@ -31,12 +31,12 @@ public class Course extends BaseEntity {
         this.users = users;
     }
 
-    public Status getStatus() {
-        return status;
+    public CourseStatus getCourseStatus() {
+        return courseStatus;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setCourseStatus(CourseStatus courseStatus) {
+        this.courseStatus = courseStatus;
     }
 
     public Calendar getCalendar() {
