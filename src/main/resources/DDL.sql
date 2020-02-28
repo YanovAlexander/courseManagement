@@ -40,6 +40,7 @@ create table home_work
         REFERENCES course (id)
     );
 alter table home_work owner to postgres;
+
 create table solution
 (
     id serial,
@@ -55,3 +56,18 @@ create table solution
         REFERENCES home_work (id)
     );
 alter table solution owner to postgres;
+
+ALTER TABLE course
+ALTER  COLUMN title TYPE VARCHAR(50),
+ALTER  COLUMN status TYPE VARCHAR(50);
+
+ALTER TABLE users
+ALTER COLUMN email TYPE VARCHAR(50);
+
+
+ALTER TABLE solution
+    ALTER COLUMN status TYPE VARCHAR(50);
+
+ALTER TABLE home_work
+    ALTER COLUMN title TYPE VARCHAR(50),
+    ALTER COLUMN file_path TYPE VARCHAR(100);
