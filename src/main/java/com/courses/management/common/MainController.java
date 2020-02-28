@@ -1,5 +1,7 @@
 package com.courses.management.common;
 
+import com.courses.management.course.CourseService;
+
 public class MainController {
     private View view;
 
@@ -17,12 +19,23 @@ public class MainController {
 
     private void doCommand(String read) {
         switch (read) {
-            case "help" : {
-             view.write("Help information");
+            case "help": {
+                view.write("Help information");
+                break;
+            }
+            case "create_course": {
+                createCourse();
+                break;
             }
             default: {
                 view.write("Enter the correct command");
+                break;
             }
         }
+    }
+
+    private void createCourse() {
+        CourseService service = new CourseService(view);
+        service.createCourse();
     }
 }
