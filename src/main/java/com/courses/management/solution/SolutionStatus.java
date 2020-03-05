@@ -1,4 +1,4 @@
-package com.courses.management.course;
+package com.courses.management.solution;
 
 public enum SolutionStatus {
     COMPLETED("COMPLETED"),

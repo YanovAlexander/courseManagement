@@ -1,6 +1,7 @@
 package com.courses.management.course;
 
 import com.courses.management.common.BaseEntity;
+import com.courses.management.homework.Homework;
 import com.courses.management.user.User;
 
 import java.util.List;
