@@ -9,8 +9,9 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
-public class CourseDAO extends DataAccessObject<Course> {
+public class CourseDAO implements DataAccessObject<Course> {
     private final static Logger LOG = LogManager.getLogger(CourseDAO.class);
     private final static String INSERT = "INSERT INTO course(title, status) " +
             "VALUES(?, ?);";
@@ -28,5 +29,25 @@ public class CourseDAO extends DataAccessObject<Course> {
         } catch (SQLException e) {
             LOG.error(String.format("create: course.title=%s", course.getTitle()), e);
         }
+    }
+
+    @Override
+    public void update(Course course) {
+
+    }
+
+    @Override
+    public void delete(int id) {
+
+    }
+
+    @Override
+    public Course get(int id) {
+        return null;
+    }
+
+    @Override
+    public List<Course> getAll() {
+        return null;
     }
 }
