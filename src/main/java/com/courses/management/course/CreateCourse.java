@@ -26,6 +26,7 @@ public class CreateCourse implements Command {
             course.setTitle(title);
             course.setCourseStatus(CourseStatus.NOT_STARTED);
             courseDAO.create(course);
+            view.write(String.format("Course created with title - %s", title));
     }
 
     private String validate(String value) {
