@@ -20,7 +20,7 @@ public class DatabaseConnector {
         HikariConfig config = new HikariConfig();
         final Properties properties = new Properties();
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        try (InputStream resourceAsStream = classLoader.getResourceAsStream("application1.properties")) {
+        try (InputStream resourceAsStream = classLoader.getResourceAsStream("application.properties")) {
             properties.load(resourceAsStream);
         } catch (Exception e) {
             LOG.error("Error loading application.properties", e);
