@@ -1,12 +1,11 @@
 package com.courses.management.course;
 
 import com.courses.management.common.Command;
-import com.courses.management.common.DataAccessObject;
 import com.courses.management.common.View;
 
 public class CreateCourse implements Command {
     private final View view;
-    private DataAccessObject<Course> courseDAO;
+    private CourseDAO courseDAO;
 
     public CreateCourse(View view) {
         this.view = view;

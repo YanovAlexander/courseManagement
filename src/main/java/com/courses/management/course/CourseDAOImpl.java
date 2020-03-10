@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class CourseDAOImpl implements DataAccessObject<Course>, CourseDAO {
+public class CourseDAOImpl implements CourseDAO {
     private final static Logger LOG = LogManager.getLogger(CourseDAOImpl.class);
     private final static String INSERT = "INSERT INTO course(title, status) " +
             "VALUES(?, ?);";
