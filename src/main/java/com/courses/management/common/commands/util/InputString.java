@@ -15,9 +15,10 @@ public class InputString {
         int inputLength = getParametersSize(inputString);
         int commandLength = getLength();
         if (inputLength != commandLength) {
-            LOG.error(String.format("Invalid number of parameters separated by |, expected %s, but was %s"
-                    , commandLength, inputLength));
-            throw new IllegalArgumentException("Invalid number of parameters separated by |");
+            String message = String.format("Invalid number of parameters separated by |, expected %s, but was %s"
+                    , commandLength, inputLength);
+            LOG.error(message);
+            throw new IllegalArgumentException(message);
         }
     }
 
