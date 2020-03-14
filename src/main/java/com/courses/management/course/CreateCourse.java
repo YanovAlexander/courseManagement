@@ -2,6 +2,7 @@ package com.courses.management.course;
 
 import com.courses.management.common.Command;
 import com.courses.management.common.View;
+import com.courses.management.common.commands.util.InputString;
 
 public class CreateCourse implements Command {
     private final View view;
@@ -14,25 +15,22 @@ public class CreateCourse implements Command {
 
     @Override
     public String command() {
-        return "create_course";
+        return "create_course|title";
     }
 
     @Override
-    public void process() {
-            view.write("Enter a course title");
-            String title = validate(view.read());
-            Course course = new Course();
-            course.setTitle(title);
-            course.setCourseStatus(CourseStatus.NOT_STARTED);
-            courseDAO.create(course);
-            view.write(String.format("Course created with title - %s", title));
+    public void process(InputString input) {
+        Course course = mapCourse(input);
+        courseDAO.create(course);
+        view.write(String.format("Course created with title - %s", course.getTitle()));
     }
 
-    private String validate(String value) {
-        while (value.trim().isEmpty()) {
-            view.write("Please enter the correct title");
-            value = view.read();
-        }
-        return value;
+    private Course mapCourse(InputString input) {
+        String[] parameters = input.getParameters();
+        String title = parameters[1];
+        Course course = new Course();
+        course.setTitle(title);
+        course.setCourseStatus(CourseStatus.NOT_STARTED);
+        return course;
     }
 }

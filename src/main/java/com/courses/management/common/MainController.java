@@ -2,6 +2,7 @@ package com.courses.management.common;
 
 import com.courses.management.common.commands.Exit;
 import com.courses.management.common.commands.Help;
+import com.courses.management.common.commands.util.InputString;
 import com.courses.management.course.CreateCourse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,11 +35,24 @@ public class MainController {
 
     private void doCommand(String input) {
     LOG.debug(String.format("doCommand: input=%s", input));
+        InputString entry = new InputString(input);
         for (Command command : commands) {
-            if (command.canProcess(input)) {
-                command.process();
+            try {
+                if (command.canProcess(entry)) {
+                    command.process(entry);
+                    break;
+                }
+            } catch (Exception e) {
+                LOG.warn(String.format("doCommand. WARN %s", e.getMessage()), e);
+                printError(e);
                 break;
             }
         }
+    }
+
+    private void printError(Exception e) {
+        String message = e.getMessage();
+        view.write("Error because of" + message);
+        view.write("Please try again.");
     }
 }
