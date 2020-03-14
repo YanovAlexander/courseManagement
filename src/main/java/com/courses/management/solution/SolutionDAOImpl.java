@@ -1,10 +1,8 @@
 package com.courses.management.solution;
 
-import com.courses.management.common.DataAccessObject;
-
 import java.util.List;
 
-public class SolutionDAOImpl implements DataAccessObject<Solution> {
+public class SolutionDAOImpl implements SolutionDAO {
     @Override
     public void create(Solution solution) {
 
@@ -27,6 +25,21 @@ public class SolutionDAOImpl implements DataAccessObject<Solution> {
 
     @Override
     public List<Solution> getAll() {
+        return null;
+    }
+
+    @Override
+    public List<Solution> getAllByUserId(int id) {
+        return null;
+    }
+
+    @Override
+    public List<Solution> getAllByHomework(int id) {
+        return null;
+    }
+
+    @Override
+    public Solution get(int userId, int homeworkId) {
         return null;
     }
 }
