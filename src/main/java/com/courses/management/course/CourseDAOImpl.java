@@ -6,6 +6,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +26,11 @@ public class CourseDAOImpl implements CourseDAO {
     private static final String FIND_COURSE_BY_ID = "SELECT id, title, status FROM course " +
             "WHERE id = ?;";
     private static final String FIND_ALL_COURSES = "SELECT id, title, status FROM course";
-    private HikariDataSource dataSource = DatabaseConnector.getConnector();
+    private DataSource dataSource;
+
+    public CourseDAOImpl(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
     public void create(Course course) {

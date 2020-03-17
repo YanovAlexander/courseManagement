@@ -9,9 +9,9 @@ public class CreateCourse implements Command {
     private final View view;
     private CourseDAO courseDAO;
 
-    public CreateCourse(View view) {
+    public CreateCourse(View view, CourseDAO dao) {
         this.view = view;
-        courseDAO = new CourseDAOImpl();
+        courseDAO = dao;
     }
 
     @Override

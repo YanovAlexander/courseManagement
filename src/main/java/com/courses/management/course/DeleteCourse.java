@@ -9,9 +9,9 @@ public class DeleteCourse implements Command {
     private View view;
     private CourseDAO courseDAO;
 
-    public DeleteCourse(View view) {
+    public DeleteCourse(View view, CourseDAO dao) {
         this.view = view;
-        this.courseDAO = new CourseDAOImpl();
+        this.courseDAO = dao;
     }
 
     @Override

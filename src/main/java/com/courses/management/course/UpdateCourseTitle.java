@@ -11,9 +11,9 @@ public class UpdateCourseTitle implements Command {
     private View view;
     private CourseDAO courseDAO;
 
-    public UpdateCourseTitle(View view) {
+    public UpdateCourseTitle(View view, CourseDAO dao) {
         this.view = view;
-        this.courseDAO = new CourseDAOImpl();
+        this.courseDAO = dao;
     }
 
     @Override
