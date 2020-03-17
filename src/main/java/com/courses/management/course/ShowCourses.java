@@ -22,7 +22,6 @@ public class ShowCourses implements Command {
 
     @Override
     public void process(InputString input) {
-        input.validateParameters(command());
         List<Course> courses = courseDAO.getAll();
         courses.forEach(course -> Courses.printCourse(view, course));
     }

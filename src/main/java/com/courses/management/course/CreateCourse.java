@@ -20,7 +20,6 @@ public class CreateCourse implements Command {
 
     @Override
     public void process(InputString input) {
-        input.validateParameters(command());
         Course course = Courses.mapCourse(input);
         validateTitle(course.getTitle());
         courseDAO.create(course);
