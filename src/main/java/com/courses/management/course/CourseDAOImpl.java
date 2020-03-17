@@ -1,8 +1,6 @@
 package com.courses.management.course;
 
-import com.courses.management.common.DatabaseConnector;
 import com.courses.management.common.exceptions.SQLCourseException;
-import com.zaxxer.hikari.HikariDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

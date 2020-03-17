@@ -1,11 +1,8 @@
-package com.course.management.course;
+package com.courses.management.course;
 
 import com.courses.management.common.Command;
 import com.courses.management.common.View;
 import com.courses.management.common.commands.util.InputString;
-import com.courses.management.course.Course;
-import com.courses.management.course.CourseDAO;
-import com.courses.management.course.CreateCourse;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,7 +15,6 @@ import static org.mockito.Mockito.when;
 
 public class CreateCourseTest {
     private Command command;
-    private View view;
     private CourseDAO dao;
 
     @Rule
@@ -26,7 +22,7 @@ public class CreateCourseTest {
 
     @Before
     public void setup() {
-        this.view = mock(View.class);
+        View view = mock(View.class);
         this.dao = mock(CourseDAO.class);
         this.command = new CreateCourse(view, dao);
     }
