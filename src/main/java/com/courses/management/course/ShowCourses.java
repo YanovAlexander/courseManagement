@@ -2,6 +2,7 @@ package com.courses.management.course;
 
 import com.courses.management.common.Command;
 import com.courses.management.common.View;
+import com.courses.management.common.commands.util.Commands;
 import com.courses.management.common.commands.util.InputString;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class ShowCourses implements Command {
 
     @Override
     public String command() {
-        return "show_courses";
+        return Commands.SHOW_COURSES;
     }
 
     @Override

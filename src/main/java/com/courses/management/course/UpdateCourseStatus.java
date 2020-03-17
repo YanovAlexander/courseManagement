@@ -2,6 +2,7 @@ package com.courses.management.course;
 
 import com.courses.management.common.Command;
 import com.courses.management.common.View;
+import com.courses.management.common.commands.util.Commands;
 import com.courses.management.common.commands.util.InputString;
 
 import java.util.Optional;
@@ -17,7 +18,7 @@ public class UpdateCourseStatus implements Command {
 
     @Override
     public String command() {
-        return "update_course_status|title|status";
+        return Commands.UPDATE_COURSE_STATUS;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.courses.management.common.commands;
 
 import com.courses.management.common.Command;
 import com.courses.management.common.View;
+import com.courses.management.common.commands.util.Commands;
 import com.courses.management.common.commands.util.InputString;
 
 public class Exit implements Command {
@@ -13,7 +14,7 @@ public class Exit implements Command {
 
     @Override
     public String command() {
-        return "exit";
+        return Commands.EXIT;
     }
 
     @Override
