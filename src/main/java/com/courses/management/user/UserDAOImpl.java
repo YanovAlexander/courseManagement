@@ -1,10 +1,14 @@
 package com.courses.management.user;
 
-import com.courses.management.common.DataAccessObject;
-
+import javax.sql.DataSource;
 import java.util.List;
 
-public class UserDAOImpl implements DataAccessObject<User> {
+public class UserDAOImpl implements UserDAO {
+    private DataSource dataSource;
+
+    public UserDAOImpl (DataSource ds) {
+        this.dataSource = ds;
+    }
     @Override
     public void create(User user) {
 
@@ -27,6 +31,11 @@ public class UserDAOImpl implements DataAccessObject<User> {
 
     @Override
     public List<User> getAll() {
+        return null;
+    }
+
+    @Override
+    public User get(String email) {
         return null;
     }
 }
