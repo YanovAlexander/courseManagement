@@ -4,6 +4,8 @@ import com.courses.management.common.Command;
 import com.courses.management.common.View;
 import com.courses.management.common.commands.util.InputString;
 import com.courses.management.course.CourseStatus;
+import com.courses.management.user.UserRole;
+import com.courses.management.user.UserStatus;
 
 import static com.courses.management.common.commands.util.Commands.*;
 import java.util.Arrays;
@@ -48,6 +50,15 @@ public class Help implements Command {
 
         view.write("\t| " + DELETE_COURSE);
         view.write("\t|\t-> move course to a DELETED status");
+        view.write("---------------------------------------------------------");
+
+        view.write("\t| " + CREATE_USER);
+        view.write("\t|\t-> create new user, user role will be set as " + UserRole.NEWCOMER + " and user status");
+        view.write("\t|\t-> as " + UserStatus.NOT_ACTIVE);
+        view.write("---------------------------------------------------------");
+
+        view.write("\t| " + FIND_USER);
+        view.write("\t|\t-> find user with specified email");
         view.write("---------------------------------------------------------");
 
         view.write("\t| " + EXIT);

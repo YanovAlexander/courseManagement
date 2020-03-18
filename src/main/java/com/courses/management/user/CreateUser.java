@@ -2,6 +2,7 @@ package com.courses.management.user;
 
 import com.courses.management.common.Command;
 import com.courses.management.common.View;
+import com.courses.management.common.commands.util.Commands;
 import com.courses.management.common.commands.util.InputString;
 
 import java.util.Objects;
@@ -17,7 +18,7 @@ public class CreateUser implements Command {
 
     @Override
     public String command() {
-        return "create_user|firstName|lastName|email";
+        return Commands.CREATE_USER;
     }
 
     @Override
