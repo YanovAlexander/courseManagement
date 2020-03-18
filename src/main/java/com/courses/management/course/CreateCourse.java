@@ -28,6 +28,10 @@ public class CreateCourse implements Command {
     }
 
     private void validateTitle(String title) {
+        if (title.trim().isEmpty()) {
+            throw new IllegalArgumentException("Course title can't be empty");
+        }
+
         Course course = courseDAO.get(title);
         if (course != null) {
             throw new IllegalArgumentException(String.format("Course with title %s already exists", title));
