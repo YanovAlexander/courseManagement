@@ -1,6 +1,7 @@
 package com.courses.management.user;
 
 import com.courses.management.common.exceptions.SQLCourseException;
+import com.courses.management.common.exceptions.SQLUserException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,7 +55,7 @@ public class UserDAOImpl implements UserDAO {
             statement.execute();
         } catch (SQLException e) {
             LOG.error(String.format("create: user.email=%s", user.getEmail()), e);
-            throw new SQLCourseException("Error occurred when creating user");
+            throw new SQLUserException("Error occurred when creating user");
         }
     }
 
@@ -74,7 +75,7 @@ public class UserDAOImpl implements UserDAO {
             statement.execute();
         } catch (SQLException e) {
             LOG.error(String.format("update: user.email=%s", user.getEmail()), e);
-            throw new SQLCourseException("Error occurred when updating user");
+            throw new SQLUserException("Error occurred when updating user");
         }
     }
 
@@ -87,7 +88,7 @@ public class UserDAOImpl implements UserDAO {
             statement.execute();
         } catch (SQLException e) {
             LOG.error(String.format("delete: user.id=%s", id), e);
-            throw new SQLCourseException("Error occurred when removing user");
+            throw new SQLUserException("Error occurred when removing user");
         }
     }
 
@@ -100,7 +101,7 @@ public class UserDAOImpl implements UserDAO {
             return getUser(statement.executeQuery());
         } catch (SQLException e) {
             LOG.error(String.format("get: user.id=%s", id), e);
-            throw new SQLCourseException("Error occurred when retrieving user");
+            throw new SQLUserException("Error occurred when retrieving user");
         }
     }
 
@@ -130,7 +131,7 @@ public class UserDAOImpl implements UserDAO {
             return getUserList(statement.executeQuery());
         } catch (SQLException e) {
             LOG.error("getAll: ", e);
-            throw new SQLCourseException("Error occurred when retrieving all user");
+            throw new SQLUserException("Error occurred when retrieving all user");
         }
     }
 
@@ -151,7 +152,7 @@ public class UserDAOImpl implements UserDAO {
             return getUser(statement.executeQuery());
         } catch (SQLException e) {
             LOG.error(String.format("get: user.email=%s", email), e);
-            throw new SQLCourseException("Error occurred when retrieving user");
+            throw new SQLUserException("Error occurred when retrieving user");
         }
     }
 
@@ -164,7 +165,7 @@ public class UserDAOImpl implements UserDAO {
             return getUserList(statement.executeQuery());
         } catch (SQLException e) {
             LOG.error(String.format("getUsersByCourse: course.title=%s", courseTitle), e);
-            throw new SQLCourseException("Error occurred when retrieving users by course title");
+            throw new SQLUserException("Error occurred when retrieving users by course title");
         }
     }
 
@@ -177,7 +178,7 @@ public class UserDAOImpl implements UserDAO {
             return getUserList(statement.executeQuery());
         } catch (SQLException e) {
             LOG.error(String.format("getAllByStatus: user.status=%s", userStatus.name()), e);
-            throw new SQLCourseException("Error occurred when retrieving users by status");
+            throw new SQLUserException("Error occurred when retrieving users by status");
         }
     }
 
@@ -191,7 +192,7 @@ public class UserDAOImpl implements UserDAO {
             statement.execute();
         } catch (SQLException e) {
             LOG.error(String.format("removeUserCourseAndSetStatusNotActive: user.email=%s", email), e);
-            throw new SQLCourseException("Error occurred when removing course from a user");
+            throw new SQLUserException("Error occurred when removing course from a user");
         }
     }
 }
