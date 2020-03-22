@@ -20,12 +20,20 @@ public class UserDAOImpl implements UserDAO {
             "FROM users WHERE email=?;";
     private static final String FIND_ALL_USERS = "SELECT id, first_name, last_name, email, user_role, status " +
             "FROM users;";
+    private static final String UPDATE_REMOVE_COURSE_AND_SET_STATUS = "UPDATE users SET course_id = null, status = ? " +
+            "WHERE email = ?";
     private DataSource dataSource;
     private final static String INSERT = "INSERT INTO users(first_name, last_name, email, user_role, status) " +
             "VALUES(?, ?, ?, ?, ?);";
     private final static String UPDATE = "UPDATE users SET first_name=?, last_name=?, email=?, user_role=?," +
-            " status=?, course_id=? WHERE email=?;";
+            " status=? WHERE id=?;";
     private static final String DELETE = "DELETE FROM users WHERE id=?;";
+    private static final String FIND_USERS_BY_COURSE_TITLE = "SELECT u.id, u.first_name, u.last_name, u.email, u.user_role, u.status " +
+            "FROM users u " +
+            "INNER JOIN course c ON c.id=u.course_id " +
+            "WHERE c.title=?;";
+    private static final String FIND_ALL_USERS_BY_STATUS = "SELECT id, first_name, last_name, email, user_role, status " +
+            "FROM users WHERE status=?;";
 
     public UserDAOImpl(DataSource ds) {
         this.dataSource = ds;
@@ -62,8 +70,7 @@ public class UserDAOImpl implements UserDAO {
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getUserRole().name());
             statement.setString(5, user.getStatus().name());
-            statement.setInt(6, user.getCourse().getId());
-            statement.setString(7, user.getEmail());
+            statement.setInt(6, user.getId());
             statement.execute();
         } catch (SQLException e) {
             LOG.error(String.format("update: user.email=%s", user.getEmail()), e);
@@ -145,6 +152,46 @@ public class UserDAOImpl implements UserDAO {
         } catch (SQLException e) {
             LOG.error(String.format("get: user.email=%s", email), e);
             throw new SQLCourseException("Error occurred when retrieving user");
+        }
+    }
+
+    @Override
+    public List<User> getUsersByCourse(String courseTitle) {
+        LOG.debug(String.format("getUsersByCourse: course.title=%s", courseTitle));
+        try (Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(FIND_USERS_BY_COURSE_TITLE)) {
+            statement.setString(1, courseTitle);
+            return getUserList(statement.executeQuery());
+        } catch (SQLException e) {
+            LOG.error(String.format("getUsersByCourse: course.title=%s", courseTitle), e);
+            throw new SQLCourseException("Error occurred when retrieving users by course title");
+        }
+    }
+
+    @Override
+    public List<User> getAllByStatus(UserStatus userStatus) {
+        LOG.debug(String.format("getAllByStatus: user.status=%s", userStatus.name()));
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_USERS_BY_STATUS)) {
+            statement.setString(1, userStatus.name());
+            return getUserList(statement.executeQuery());
+        } catch (SQLException e) {
+            LOG.error(String.format("getAllByStatus: user.status=%s", userStatus.name()), e);
+            throw new SQLCourseException("Error occurred when retrieving users by status");
+        }
+    }
+
+    @Override
+    public void removeUserCourseAndSetStatus(String email, UserStatus status) {
+        LOG.debug(String.format("removeUserCourseAndSetStatusNotActive: user.email=%s", email));
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_REMOVE_COURSE_AND_SET_STATUS)) {
+            statement.setString(1, status.name());
+            statement.setString(2, email);
+            statement.execute();
+        } catch (SQLException e) {
+            LOG.error(String.format("removeUserCourseAndSetStatusNotActive: user.email=%s", email), e);
+            throw new SQLCourseException("Error occurred when removing course from a user");
         }
     }
 }

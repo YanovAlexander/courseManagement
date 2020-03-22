@@ -4,9 +4,7 @@ import com.courses.management.common.commands.Exit;
 import com.courses.management.common.commands.Help;
 import com.courses.management.common.commands.util.InputString;
 import com.courses.management.course.*;
-import com.courses.management.user.CreateUser;
-import com.courses.management.user.FindUser;
-import com.courses.management.user.UserDAOImpl;
+import com.courses.management.user.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,7 +31,12 @@ public class MainController {
                 new DeleteCourse(view, courseDAO),
                 new CreateUser(view, userDAO),
                 new FindUser(view, userDAO),
-                new Exit(view)
+                new Exit(view),
+                new DeleteUserCourse(view, userDAO),
+                new FindAllUsersByCourse(view, userDAO),
+                new FindUsersByStatus(view, userDAO),
+                new UpdateUserCourse(view, userDAO, courseDAO),
+                new UpdateUserEmail(view, userDAO)
         );
     }
 

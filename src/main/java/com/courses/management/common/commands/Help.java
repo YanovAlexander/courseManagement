@@ -61,6 +61,26 @@ public class Help implements Command {
         view.write("\t|\t-> find user with specified email");
         view.write("---------------------------------------------------------");
 
+        view.write("\t| " + DELETE_USER_COURSE);
+        view.write("\t|\t-> delete user course and move user to NOT_ACTIVE status");
+        view.write("---------------------------------------------------------");
+
+        view.write("\t| " + FIND_ALL_USERS_BY_COURSE);
+        view.write("\t|\t-> get all users by specified course");
+        view.write("---------------------------------------------------------");
+
+        view.write("\t| " + UPDATE_USER_COURSE);
+        view.write("\t|\t-> update user course by specified course title");
+        view.write("---------------------------------------------------------");
+
+        view.write("\t| " + FIND_ALL_USERS_BY_STATUS);
+        view.write("\t|\t-> get all users by specified status ["+ collectUsersStatuses() +"]");
+        view.write("---------------------------------------------------------");
+
+        view.write("\t| " + UPDATE_USER_EMAIL);
+        view.write("\t|\t-> update user email");
+        view.write("---------------------------------------------------------");
+
         view.write("\t| " + EXIT);
         view.write("\t|\t-> exit application");
         view.write("---------------------------------------------------------");
@@ -69,5 +89,9 @@ public class Help implements Command {
 
     private String collectCourseStatuses() {
         return Arrays.stream(CourseStatus.values()).map(CourseStatus::getStatus).collect(Collectors.joining(", "));
+    }
+
+    private String collectUsersStatuses() {
+        return Arrays.stream(UserStatus.values()).map(UserStatus::getStatus).collect(Collectors.joining(", "));
     }
 }
