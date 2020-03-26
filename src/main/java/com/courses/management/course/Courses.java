@@ -3,7 +3,16 @@ package com.courses.management.course;
 import com.courses.management.common.View;
 import com.courses.management.common.commands.util.InputString;
 
+import javax.sql.DataSource;
+import java.util.List;
+
 public class Courses {
+    private CourseDAO courseDAO;
+
+    public Courses(DataSource dataSource) {
+        courseDAO = new CourseDAOImpl(dataSource);
+    }
+
     public static Course mapCourse(InputString input) {
         String[] parameters = input.getParameters();
         String title = parameters[1];
@@ -17,5 +26,13 @@ public class Courses {
         view.write("Course:");
         view.write(String.format("\t title = %s", course.getTitle()));
         view.write(String.format("\t status = %s", course.getCourseStatus()));
+    }
+
+    public List<Course> showCourses() {
+        return courseDAO.getAll();
+    }
+
+    public Course getById(Integer id) {
+        return courseDAO.get(id);
     }
 }
