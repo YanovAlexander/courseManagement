@@ -9,8 +9,8 @@ import java.util.List;
 public class Courses {
     private CourseDAO courseDAO;
 
-    public Courses(DataSource dataSource) {
-        courseDAO = new CourseDAOImpl(dataSource);
+    public Courses(CourseDAO courseDAO) {
+        this.courseDAO = courseDAO;
     }
 
     public static Course mapCourse(InputString input) {
