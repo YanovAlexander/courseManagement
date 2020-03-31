@@ -1,6 +1,7 @@
 package com.courses.management.course;
 
 import com.courses.management.config.DatabaseConnector;
+import com.courses.management.user.UserDAOImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +18,7 @@ public class CourseServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        service = new Courses(new CourseDAOImpl(DatabaseConnector.getDataSource()));
+        service = new Courses(new CourseDAOImpl(DatabaseConnector.getDataSource()), new UserDAOImpl(DatabaseConnector.getDataSource()));
     }
 
     @Override
@@ -30,7 +31,9 @@ public class CourseServlet extends HttpServlet {
             req.getRequestDispatcher("/view/show_courses.jsp").forward(req, resp);
         } if (action.startsWith("/get")) {
             final String id = req.getParameter("id");
-            service.getById(Integer.valueOf(id));
+            final Course course = service.getById(Integer.valueOf(id));
+            req.setAttribute("course", course);
+            req.getRequestDispatcher("/view/course_details.jsp").forward(req, resp);
         }
     }
 
