@@ -6,11 +6,13 @@ import com.courses.management.common.MainController;
 import com.courses.management.common.View;
 
 public class Main {
+    private static final String APPLICATION_PROPERTIES_FILENAME = "application.properties";
+
     public static void main(String[] args) {
         View view = new Console();
         //TODO remove main class as this class is not used anymore.
-//        DatabaseConnector dbConnector = new DatabaseConnector();
-//        MainController controller = new MainController(view, dbConnector.getDataSource());
-//        controller.read();
+        DatabaseConnector.init(APPLICATION_PROPERTIES_FILENAME);
+        MainController controller = new MainController(view, DatabaseConnector.getDataSource());
+        controller.read();
     }
 }
