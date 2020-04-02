@@ -44,7 +44,8 @@ public class Courses {
     public Course getById(Integer id) {
         final Course course = courseDAO.get(id);
         final List<User> users = userDAO.getUsersByCourse(course.getTitle());
-        course.setUsers(users);
+        //TODO
+//        course.setUsers(users);
         return course;
     }
 

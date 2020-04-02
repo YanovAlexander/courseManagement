@@ -11,9 +11,9 @@ import java.util.Objects;
 
 public class Course extends BaseEntity {
     private String title;
-    private List<User> users;
+//    private List<User> users;
     private CourseStatus courseStatus;
-    private Calendar calendar;
+//    private Calendar calendar;
     private List<Homework> homework;
 
     public Course() {
@@ -28,13 +28,13 @@ public class Course extends BaseEntity {
         this.title = title;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
+//    public List<User> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(List<User> users) {
+//        this.users = users;
+//    }
 
     @EnumValidator(regexp = "NOT_STARTED|IN_PROGRESS")
     public CourseStatus getCourseStatus() {
@@ -45,13 +45,13 @@ public class Course extends BaseEntity {
         this.courseStatus = courseStatus;
     }
 
-    public Calendar getCalendar() {
-        return calendar;
-    }
+//    public Calendar getCalendar() {
+//        return calendar;
+//    }
 
-    public void setCalendar(Calendar calendar) {
-        this.calendar = calendar;
-    }
+//    public void setCalendar(Calendar calendar) {
+//        this.calendar = calendar;
+//    }
 
     public List<Homework> getHomework() {
         return homework;

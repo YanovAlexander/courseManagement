@@ -3,6 +3,9 @@ package com.courses.management.course;
 import com.courses.management.common.exceptions.SQLCourseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -25,9 +28,11 @@ public class CourseDAOImpl implements CourseDAO {
             "WHERE id = ?;";
     private static final String FIND_ALL_COURSES = "SELECT id, title, status FROM course";
     private DataSource dataSource;
+    private SessionFactory sessionFactory;
 
-    public CourseDAOImpl(DataSource dataSource) {
+    public CourseDAOImpl(DataSource dataSource, SessionFactory sessionFactory) {
         this.dataSource = dataSource;
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
@@ -95,16 +100,25 @@ public class CourseDAOImpl implements CourseDAO {
 
     @Override
     public Course get(String title) {
-        LOG.debug(String.format("get: course.title=%s", title));
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_COURSE_BY_TITLE)) {
-            statement.setString(1, title);
-            ResultSet resultSet = statement.executeQuery();
-            return getCourse(resultSet);
-        } catch (SQLException e) {
+        Session session = null;
+        Transaction transaction = null;
+        Course course = null;
+
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            course = (Course) session.createQuery("from Course c where c.title=:title")
+                    .setParameter("title", title).getSingleResult();
+            transaction.commit();
+        } catch (Exception e) {
             LOG.error(String.format("get: course.title=%s", title), e);
             throw new SQLCourseException("Error occurred when find a course");
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
+        return course;
     }
 
     private Course getCourse(ResultSet rs) throws SQLException {
