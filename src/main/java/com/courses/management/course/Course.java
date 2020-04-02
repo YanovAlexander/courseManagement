@@ -1,9 +1,11 @@
 package com.courses.management.course;
 
 import com.courses.management.common.BaseEntity;
+import com.courses.management.common.EnumValidator;
 import com.courses.management.homework.Homework;
 import com.courses.management.user.User;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +19,7 @@ public class Course extends BaseEntity {
     public Course() {
     }
 
+    @NotEmpty
     public String getTitle() {
         return title;
     }
@@ -33,6 +36,7 @@ public class Course extends BaseEntity {
         this.users = users;
     }
 
+    @EnumValidator(regexp = "NOT_STARTED|IN_PROGRESS")
     public CourseStatus getCourseStatus() {
         return courseStatus;
     }

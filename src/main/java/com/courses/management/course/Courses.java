@@ -48,6 +48,10 @@ public class Courses {
         return course;
     }
 
+    public Course getByTitle(String title) {
+        return courseDAO.get(title);
+    }
+
     public Course createCourse(HttpServletRequest req) {
         final String courseTitle = (String) req.getParameter("title");
         final String course_status = (String) req.getParameter("course_status");

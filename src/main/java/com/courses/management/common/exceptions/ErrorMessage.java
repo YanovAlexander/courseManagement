@@ -3,13 +3,30 @@ package com.courses.management.common.exceptions;
 import java.util.List;
 
 public class ErrorMessage {
-    private List<String> errors;
+    private String field;
+    private String error;
 
-    public List<String> getErrors() {
-        return errors;
+    public ErrorMessage(String field, String error) {
+        this.field = field;
+        this.error = error;
     }
 
-    public void setErrors(List<String> errors) {
-        this.errors = errors;
+    public ErrorMessage() {
+    }
+
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }

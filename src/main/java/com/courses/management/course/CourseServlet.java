@@ -1,8 +1,10 @@
 package com.courses.management.course;
 
+import com.courses.management.common.Validator;
 import com.courses.management.common.exceptions.ErrorMessage;
 import com.courses.management.config.DatabaseConnector;
 import com.courses.management.user.UserDAOImpl;
+import org.apache.logging.log4j.util.Strings;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 @WebServlet(urlPatterns = "/course/*")
 public class CourseServlet extends HttpServlet {
@@ -45,17 +47,39 @@ public class CourseServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = getAction(req);
         if (action.startsWith("/createCourse")) {
-            ErrorMessage errorMessage = CourseValidator.validateCreateCourse(req);
-            if (!errorMessage.getErrors().isEmpty()) {
-                req.setAttribute("errorMessage", errorMessage);
+            Course course = mapCourse(req);
+
+            List<ErrorMessage> errorMessages = validateCourse(course);
+            if (!errorMessages.isEmpty()) {
+                req.setAttribute("errors", errorMessages);
                 req.setAttribute("courseStatuses", CourseStatus.values());
                 req.getRequestDispatcher("/view/create_course.jsp").forward(req, resp);
             }
-            final Course course = service.createCourse(req);
+
             req.setAttribute("course_title", course.getTitle());
             req.getRequestDispatcher("/view/course_created.jsp").forward(req, resp);
         }
     }
+
+    private Course mapCourse(HttpServletRequest req) {
+        final String courseTitle = req.getParameter("title");
+        final String course_status = req.getParameter("course_status");
+        final Optional<CourseStatus> courseStatus = CourseStatus.getCourseStatus(course_status);
+        Course course = new Course();
+        course.setTitle(courseTitle);
+        course.setCourseStatus(courseStatus.get());
+        return course;
+    }
+
+    private List<ErrorMessage> validateCourse(Course course) {
+        final List<ErrorMessage> errorMessages = Validator.validateEntity(course);
+        final Course persistentCourse = service.getByTitle(course.getTitle());
+        if (Objects.nonNull(persistentCourse) && !persistentCourse.getTitle().isEmpty()) {
+            errorMessages.add(new ErrorMessage("", "course with title already exists"));
+        }
+        return errorMessages;
+    }
+
 
     private String getAction(HttpServletRequest req) {
         final String requestURI = req.getRequestURI();
