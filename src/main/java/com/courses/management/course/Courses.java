@@ -53,13 +53,7 @@ public class Courses {
         return courseDAO.get(title);
     }
 
-    public Course createCourse(HttpServletRequest req) {
-        final String courseTitle = (String) req.getParameter("title");
-        final String course_status = (String) req.getParameter("course_status");
-        final Optional<CourseStatus> courseStatus = CourseStatus.getCourseStatus(course_status);
-        Course course = new Course();
-        course.setTitle(courseTitle);
-        course.setCourseStatus(courseStatus.get());
+    public Course createCourse(Course course) {
         courseDAO.create(course);
         return course;
     }
