@@ -48,16 +48,16 @@ public class CourseServlet extends HttpServlet {
         String action = getAction(req);
         if (action.startsWith("/createCourse")) {
             Course course = mapCourse(req);
-
             List<ErrorMessage> errorMessages = validateCourse(course);
             if (!errorMessages.isEmpty()) {
                 req.setAttribute("errors", errorMessages);
                 req.setAttribute("courseStatuses", CourseStatus.values());
                 req.getRequestDispatcher("/view/create_course.jsp").forward(req, resp);
+            } else {
+                service.createCourse(course);
+                req.setAttribute("course_title", course.getTitle());
+                req.getRequestDispatcher("/view/course_created.jsp").forward(req, resp);
             }
-            service.createCourse(course);
-            req.setAttribute("course_title", course.getTitle());
-            req.getRequestDispatcher("/view/course_created.jsp").forward(req, resp);
         }
     }
 
