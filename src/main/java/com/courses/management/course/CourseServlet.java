@@ -62,8 +62,8 @@ public class CourseServlet extends HttpServlet {
     }
 
     private Course mapCourse(HttpServletRequest req) {
-        final String courseTitle = req.getParameter("title");
-        final String course_status = req.getParameter("course_status");
+        final String courseTitle = req.getParameter("title").trim();
+        final String course_status = req.getParameter("course_status").trim();
         final Optional<CourseStatus> courseStatus = CourseStatus.getCourseStatus(course_status);
         Course course = new Course();
         course.setTitle(courseTitle);
