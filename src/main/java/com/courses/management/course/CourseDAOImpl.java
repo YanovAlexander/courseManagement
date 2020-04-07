@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -39,14 +40,17 @@ public class CourseDAOImpl implements CourseDAO {
     public void create(Course course) {
         LOG.debug(String.format("create: course.title=%s", course.getTitle()));
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT)) {
-            statement.setString(1, course.getTitle());
-            statement.setString(2, course.getCourseStatus().getStatus());
-            statement.execute();
-        } catch (SQLException e) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.save(course);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             LOG.error(String.format("create: course.title=%s", course.getTitle()), e);
-            throw new SQLCourseException("Error occurred when saving a course");
+            throw new SQLCourseException("Error occurred when find a course");
         }
     }
 
@@ -100,23 +104,21 @@ public class CourseDAOImpl implements CourseDAO {
 
     @Override
     public Course get(String title) {
-        Session session = null;
+        LOG.debug(String.format("get: course.title=%s", title));
         Transaction transaction = null;
         Course course = null;
 
-        try {
-            session = sessionFactory.openSession();
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            course = (Course) session.createQuery("from Course c where c.title=:title")
-                    .setParameter("title", title).getSingleResult();
+            course = (Course) session.createQuery("from Course as c where c.title=:title")
+                    .setParameter("title", title).uniqueResult();
             transaction.commit();
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             LOG.error(String.format("get: course.title=%s", title), e);
             throw new SQLCourseException("Error occurred when find a course");
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
         return course;
     }
