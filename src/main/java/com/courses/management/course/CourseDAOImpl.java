@@ -92,11 +92,13 @@ public class CourseDAOImpl implements CourseDAO {
     @Override
     public List<Course> getAll() {
         LOG.debug("getAll");
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_COURSES)) {
-            ResultSet resultSet = statement.executeQuery();
-            return getCourseList(resultSet);
-        } catch (SQLException e) {
+        Transaction transaction = null;
+        List<Course> courses;
+
+        try (Session session = sessionFactory.openSession()) {
+            courses = session.createQuery("FROM Course").getResultList();
+            return courses;
+        } catch (Exception e) {
             LOG.error("getAll", e);
             throw new SQLCourseException("Error occurred when get all courses");
         }

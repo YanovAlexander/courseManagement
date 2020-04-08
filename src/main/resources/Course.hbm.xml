@@ -6,7 +6,7 @@
     <class name="com.courses.management.course.Course" table="course" catalog="course_management" schema="public">
         <id name="id" type="java.lang.Integer">
             <column name="id"/>
-            <generator  class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
                 <param name="sequence_name">course_id_seq</param>
                 <param name="increment_size">1</param>
                 <param name="optimizer">none</param>
@@ -22,9 +22,11 @@
                 <param name="useNamed">true</param>
             </type>
         </property>
-<!--        <set name="users" inverse="true" cascade="all">-->
-<!--            <key column="CATEGORY_ID" not-null="true" />-->
-<!--            <one-to-many class="com.courses.management.user.User"/>-->
-<!--        </set>-->
+        <bag name="users" table="users">
+            <key>
+                <column name="course_id"/>
+            </key>
+            <one-to-many class="com.courses.management.user.User"/>
+        </bag>
     </class>
 </hibernate-mapping>

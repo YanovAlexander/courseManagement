@@ -26,7 +26,7 @@ public class IntegrationTest {
     @Before
     public void setup() {
         this.dbConnector = new DatabaseConnectorTest();
-        this.mainController = new MainController(new Console(), dbConnector.getDataSource());
+//        this.mainController = new MainController(new Console(), dbConnector.getDataSource(),);
         this.in = new CustomInputStream();
         this.out = new ByteArrayOutputStream();
         System.setIn(in);
