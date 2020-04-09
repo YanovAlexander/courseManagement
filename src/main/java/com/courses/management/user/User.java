@@ -4,9 +4,12 @@ import com.courses.management.common.BaseEntity;
 import com.courses.management.course.Course;
 import com.courses.management.solution.Solution;
 
+import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "users")
 public class User extends BaseEntity {
     private String firstName;
     private String lastName;
@@ -19,7 +22,7 @@ public class User extends BaseEntity {
     public User() {
 
     }
-
+    @Column(name = "first_name")
     public String getFirstName() {
         return firstName;
     }
@@ -28,6 +31,7 @@ public class User extends BaseEntity {
         this.firstName = firstName;
     }
 
+    @Column(name = "last_name")
     public String getLastName() {
         return lastName;
     }
@@ -36,6 +40,7 @@ public class User extends BaseEntity {
         this.lastName = lastName;
     }
 
+    @Column(name = "email")
     public String getEmail() {
         return email;
     }
@@ -44,6 +49,8 @@ public class User extends BaseEntity {
         this.email = email;
     }
 
+    @Column(name = "user_role")
+    @Enumerated(EnumType.STRING)
     public UserRole getUserRole() {
         return userRole;
     }
@@ -52,6 +59,7 @@ public class User extends BaseEntity {
         this.userRole = userRole;
     }
 
+    @ManyToOne()
     public Course getCourse() {
         return course;
     }
@@ -60,6 +68,7 @@ public class User extends BaseEntity {
         this.course = course;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     public List<Solution> getSolutions() {
         return solutions;
     }
@@ -68,6 +77,8 @@ public class User extends BaseEntity {
         this.solutions = solutions;
     }
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     public UserStatus getStatus() {
         return status;
     }

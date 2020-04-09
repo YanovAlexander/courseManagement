@@ -12,7 +12,9 @@
         <property name="connection.password">admin</property>
         <property name="hibernate.enable_lazy_load_no_trans">true</property>
 
-        <mapping resource="Course.hbm.xml"/>
-        <mapping resource="User.hbm.xml"/>
+        <mapping class="com.courses.management.course.Course"/>
+        <mapping class="com.courses.management.user.User"/>
+        <mapping class="com.courses.management.homework.Homework"/>
+        <mapping class="com.courses.management.solution.Solution"/>
     </session-factory>
 </hibernate-configuration>
