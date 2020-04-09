@@ -34,7 +34,7 @@
                 <param name="useNamed">true</param>
             </type>
         </property>
-        <many-to-one name="course" class="com.courses.management.course.Course" column="course_id"/>
+        <many-to-one name="course" class="com.courses.management.course.Course" column="course_id" fetch="select"/>
 <!--        <list name="solutions" table="solution">-->
 <!--            <key>-->
 <!--                <column name="user_id"/>-->

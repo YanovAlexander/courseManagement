@@ -22,7 +22,7 @@
                 <param name="useNamed">true</param>
             </type>
         </property>
-        <bag name="users" table="users">
+        <bag name="users" table="users" lazy="false" fetch="select">
             <key>
                 <column name="course_id"/>
             </key>

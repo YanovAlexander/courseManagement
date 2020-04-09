@@ -50,7 +50,7 @@ public class CourseDAOImpl implements CourseDAO {
                 transaction.rollback();
             }
             LOG.error(String.format("create: course.title=%s", course.getTitle()), e);
-            throw new SQLCourseException("Error occurred when find a course");
+            throw new SQLCourseException("Error occurred when create a course");
         }
     }
 
@@ -78,15 +78,19 @@ public class CourseDAOImpl implements CourseDAO {
     @Override
     public Course get(int id) {
         LOG.debug(String.format("get: course.id=%s", id));
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_COURSE_BY_ID)) {
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            return getCourse(resultSet);
-        } catch (SQLException e) {
+        Course course = null;
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            course = session.get(Course.class, id);
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             LOG.error(String.format("get: course.id=%s", id), e);
             throw new SQLCourseException("Error occurred when find a course");
         }
+        return course;
     }
 
     @Override
