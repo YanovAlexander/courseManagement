@@ -8,16 +8,12 @@ public class AppInit implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        System.out.println("Init DatabaseConnector");
-        DatabaseConnector.init(APPLICATION_PROPERTIES_FILENAME);
         System.out.println("Init hibernate");
         HibernateDatabaseConnector.init();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        System.out.println("Destroy DatabaseConnector");
-        DatabaseConnector.destroy();
         System.out.println("Destroy hibernate");
         HibernateDatabaseConnector.destroy();
     }

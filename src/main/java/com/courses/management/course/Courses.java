@@ -7,19 +7,14 @@ import com.courses.management.user.UserDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
 import java.util.List;
-import java.util.Optional;
 
 public class Courses {
     private static final Logger LOG = LogManager.getLogger(Courses.class);
-    private final UserDAO userDAO;
     private CourseDAO courseDAO;
 
-    public Courses(CourseDAO courseDAO, UserDAO userDAO) {
+    public Courses(CourseDAO courseDAO) {
         this.courseDAO = courseDAO;
-        this.userDAO = userDAO;
     }
 
     public static Course mapCourse(InputString input) {
@@ -43,9 +38,6 @@ public class Courses {
 
     public Course getById(Integer id) {
         final Course course = courseDAO.get(id);
-        final List<User> users = userDAO.getUsersByCourse(course.getTitle());
-        //TODO
-//        course.setUsers(users);
         return course;
     }
 
