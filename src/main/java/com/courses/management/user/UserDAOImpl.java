@@ -139,7 +139,7 @@ public class UserDAOImpl implements UserDAO {
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
 
-            List<User> users = session.createQuery("FROM User as u INNER JOIN u.course as c" +
+            List<User> users = (List<User>) session.createQuery("SELECT u FROM User as u INNER JOIN u.course as c" +
                     " WHERE c.title=:title")
                     .setParameter("title", courseTitle)
                     .getResultList();
