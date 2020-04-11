@@ -3,7 +3,6 @@ package com.courses.management.common;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.SequenceGenerator;
 
 import java.io.Serializable;
 

@@ -22,7 +22,6 @@ public class CourseDAOImpl implements CourseDAO {
     @Override
     public void create(Course course) {
         LOG.debug(String.format("create: course.title=%s", course.getTitle()));
-
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -39,18 +38,20 @@ public class CourseDAOImpl implements CourseDAO {
 
     @Override
     public void update(Course course) {
-//        LOG.debug(String.format("update: course.title=%s, course.status=%s", course.getTitle(),
-//                course.getCourseStatus()));
-//        try (Connection connection = dataSource.getConnection();
-//             PreparedStatement statement = connection.prepareStatement(UPDATE_COURSE)) {
-//            statement.setString(1, course.getTitle());
-//            statement.setString(2, course.getCourseStatus().getStatus());
-//            statement.setInt(3, course.getId());
-//            statement.executeUpdate();
-//        } catch (SQLException e) {
-//            LOG.error(String.format("update: course.title=%s", course.getTitle()), e);
-//            throw new SQLCourseException("Error occurred when update a course");
-//        }
+        LOG.debug(String.format("update: course.title=%s, course.status=%s", course.getTitle(),
+                course.getCourseStatus()));
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.update(course);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            LOG.error(String.format("update: course.title=%s", course.getTitle()), e);
+            throw new SQLCourseException("Error occurred when update a course");
+        }
     }
 
     @Override
