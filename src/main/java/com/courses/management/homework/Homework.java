@@ -25,7 +25,7 @@ public class Homework extends BaseEntity {
         this.title = title;
     }
 
-    @Column(name = "path")
+    @Column(name = "file_path")
     public String getPath() {
         return path;
     }

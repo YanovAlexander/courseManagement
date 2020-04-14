@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>Course Managemenr</title>
-    <style><%@include file="/view/style.css"%></style>
+    <style><%@include file="/view/css/style.css"%></style>
 </head>
 <body>
 <c:import url="/view/navibar.jsp"/>
