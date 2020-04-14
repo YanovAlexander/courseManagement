@@ -3,6 +3,8 @@ package com.courses.management.user;
 import com.courses.management.common.BaseEntity;
 import com.courses.management.course.Course;
 import com.courses.management.solution.Solution;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cache;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users")
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "User")
 public class User extends BaseEntity {
     private String firstName;
     private String lastName;
@@ -22,6 +25,7 @@ public class User extends BaseEntity {
     public User() {
 
     }
+
     @Column(name = "first_name")
     public String getFirstName() {
         return firstName;

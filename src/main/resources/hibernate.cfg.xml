@@ -11,6 +11,10 @@
         <property name="connection.username">postgres</property>
         <property name="connection.password">admin</property>
         <property name="hibernate.enable_lazy_load_no_trans">true</property>
+        <!--Adding caching-->
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.jcache.JCacheRegionFactory</property>
+        <property name="hibernate.javax.cache.provider">org.ehcache.jsr107.EhcacheCachingProvider</property>
+        <property name="hibernate.cache.use_second_level_cache">true</property>
 
         <mapping class="com.courses.management.course.Course"/>
         <mapping class="com.courses.management.user.User"/>

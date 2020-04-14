@@ -4,6 +4,8 @@ import com.courses.management.common.BaseEntity;
 import com.courses.management.common.EnumValidator;
 import com.courses.management.homework.Homework;
 import com.courses.management.user.User;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cache;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -12,6 +14,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "course")
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "Course")
 public class Course extends BaseEntity {
     private String title;
     private List<User> users;
