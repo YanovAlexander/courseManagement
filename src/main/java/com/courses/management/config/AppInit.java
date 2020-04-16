@@ -1,5 +1,7 @@
 package com.courses.management.config;
 
+import com.courses.management.common.PropertiesUtil;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -10,6 +12,8 @@ public class AppInit implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         System.out.println("Init hibernate");
         HibernateDatabaseConnector.init();
+        System.out.println("Init properties");
+        PropertiesUtil.init(APPLICATION_PROPERTIES_FILENAME);
     }
 
     @Override

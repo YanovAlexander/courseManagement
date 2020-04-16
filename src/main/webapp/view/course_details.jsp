@@ -49,7 +49,7 @@
                     <c:choose>
                         <c:when test="${not empty course.homework}">
                             <c:forEach items="${course.homework}" var="homework">
-                                <li><a href="${pageContext.request.contextPath}/homework/get?id=${homework.id}"
+                                <li><a href="${pageContext.request.contextPath}/homework/preview?id=${homework.id}"
                                        class="button"
                                        role="button"
                                        tabindex="0">${homework.title}</a>
@@ -65,12 +65,12 @@
         </tr>
         </tbody>
     </table>
-</div>
-<div align="center">
-    <a href="${pageContext.request.contextPath}/homework/upload?course_id=${course.id}"
-       class="button"
-       role="button"
-       tabindex="0">Add homework</a>
+    <div align="left">
+        <a href="${pageContext.request.contextPath}/homework/upload?course_id=${course.id}"
+           class="button"
+           role="button"
+           tabindex="0">Add homework</a>
+    </div>
 </div>
 </body>
 </html>

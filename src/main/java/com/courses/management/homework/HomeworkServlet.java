@@ -1,10 +1,13 @@
 package com.courses.management.homework;
 
+import com.courses.management.config.HibernateDatabaseConnector;
+import com.courses.management.course.CourseDAOImpl;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,21 +16,30 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
+@WebServlet(urlPatterns = "/homework/*")
 public class HomeworkServlet extends HttpServlet {
+    private Homeworks service;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        service = new Homeworks(new HomeworkDAOImpl(HibernateDatabaseConnector.getSessionFactory()),
+                new CourseDAOImpl(HibernateDatabaseConnector.getSessionFactory()));
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = getAction(req);
         if (action.startsWith("/upload")) {
+            String courseId = req.getParameter("course_id");
+            req.setAttribute("courseId", courseId);
             req.getRequestDispatcher("/view/create_homework.jsp").forward(req, resp);
         } else if (action.startsWith("/get")) {
-//            Homeworks.getHomework();
-            File file = new File("C:\\Users\\Oleksandr_Yanov1\\Desktop\\GoIT\\ProjectCritiries.doc");
-            file.exists();
-            resp.setHeader("Content-Type", getServletContext().getMimeType(file.getName()));
-            resp.setHeader("Content-Length", String.valueOf(file.length()));
-            resp.setHeader("Content-Disposition", "inline; filename=\"ProjectCritiries.doc\"");
-            Files.copy(file.toPath(), resp.getOutputStream());
+            getHomework(req, resp);
+        } else if (action.startsWith("/preview")) {
+            final String homeworkId = req.getParameter("id");
+            req.setAttribute("homeworkId", homeworkId);
+            req.getRequestDispatcher("/view/preview_homework.jsp").forward(req, resp);
         }
     }
 
@@ -36,24 +48,46 @@ public class HomeworkServlet extends HttpServlet {
         String action = getAction(request);
 
         if (action.startsWith("/upload")) {
+            Integer courseId = null;
             if (ServletFileUpload.isMultipartContent(request)) {
                 try {
+                    courseId = Integer.valueOf(request.getParameter("course_id"));
                     List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
-
-                    request.setAttribute("message", "File Uploaded Successfully");
+                    service.uploadFile(multiparts, courseId);
                 } catch (Exception ex) {
-                    request.setAttribute("message", "File Upload Failed due to " + ex);
+                    processError(request, response, "File Upload Failed due to " + ex.getMessage(),
+                            "/view/create_homework.jsp");
                 }
             } else {
-                request.setAttribute("message", "No File found");
+                processError(request, response, "No File found", "/view/create_homework.jsp");
             }
-            request.getRequestDispatcher("/homework_uploaded.jsp").forward(request, response);
+            response.sendRedirect(String.format("/course/get?id=%s", courseId));
         }
+    }
+
+    private void processError(HttpServletRequest request, HttpServletResponse response, String message, String jspPath)
+            throws ServletException, IOException {
+        request.setAttribute("error", message);
+        request.getRequestDispatcher(jspPath).forward(request, response);
     }
 
     private String getAction(HttpServletRequest req) {
         final String requestURI = req.getRequestURI();
         String requestPathWithServletContext = req.getContextPath() + req.getServletPath();
         return requestURI.substring(requestPathWithServletContext.length());
+    }
+
+    private void getHomework(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Integer homeworkId = Integer.valueOf(req.getParameter("id"));
+        Homework homework = service.getHomework(homeworkId);
+        File file = new File(homework.getPath());
+        if (!file.exists()) {
+            processError(req, resp, "No File found", "/view/course_details.jsp");
+        }
+
+        resp.setHeader("Content-Type", getServletContext().getMimeType(file.getName()));
+        resp.setHeader("Content-Length", String.valueOf(file.length()));
+        resp.setHeader("Content-Disposition", String.format("inline; filename=\"%s\"", homework.getTitle()));
+        Files.copy(file.toPath(), resp.getOutputStream());
     }
 }
