@@ -1,6 +1,7 @@
 package com.courses.management.homework;
 
 import com.courses.management.common.exceptions.SQLUserException;
+import com.courses.management.config.HibernateDatabaseConnector;
 import com.courses.management.course.CourseDAOImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,10 +13,9 @@ import java.util.List;
 
 public class HomeworkDAOImpl implements HomeworkDAO {
     private final static Logger LOG = LogManager.getLogger(CourseDAOImpl.class);
-    private SessionFactory sessionFactory;
 
-    public HomeworkDAOImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public HomeworkDAOImpl() {
+
     }
 
     @Override
@@ -24,7 +24,7 @@ public class HomeworkDAOImpl implements HomeworkDAO {
                 "homework.path=%s" +
                 "homework.course_id=%s", homework.getTitle(), homework.getPath(), homework.getCourse().getId()));
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = HibernateDatabaseConnector.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.save(homework);
             transaction.commit();
@@ -46,7 +46,7 @@ public class HomeworkDAOImpl implements HomeworkDAO {
     public void delete(int id) {
         LOG.debug(String.format("delete: homework.id=%s ", id));
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = HibernateDatabaseConnector.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.createQuery("DELETE Homework as hw where hw.id=:id")
                     .setParameter("id", id)
@@ -65,7 +65,7 @@ public class HomeworkDAOImpl implements HomeworkDAO {
     public Homework get(int id) {
         LOG.debug(String.format("get: homework.id=%s ", id));
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = HibernateDatabaseConnector.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             return session.get(Homework.class, id);
         } catch (Exception e) {

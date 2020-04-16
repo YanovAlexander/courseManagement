@@ -1,10 +1,11 @@
 package com.courses.management.homework;
 
-import com.courses.management.config.HibernateDatabaseConnector;
-import com.courses.management.course.CourseDAOImpl;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,14 +18,22 @@ import java.nio.file.Files;
 import java.util.List;
 
 @WebServlet(urlPatterns = "/homework/*")
+@Configurable
 public class HomeworkServlet extends HttpServlet {
-    private Homeworks service;
+    private Homeworks homeworks;
+
+    public HomeworkServlet() {
+    }
+
+    @Autowired
+    public void setHomeworks(Homeworks homeworks) {
+        this.homeworks = homeworks;
+    }
 
     @Override
     public void init() throws ServletException {
         super.init();
-        service = new Homeworks(new HomeworkDAOImpl(HibernateDatabaseConnector.getSessionFactory()),
-                new CourseDAOImpl(HibernateDatabaseConnector.getSessionFactory()));
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     @Override
@@ -53,7 +62,7 @@ public class HomeworkServlet extends HttpServlet {
                 try {
                     courseId = Integer.valueOf(request.getParameter("course_id"));
                     List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
-                    service.uploadFile(multiparts, courseId);
+                    homeworks.uploadFile(multiparts, courseId);
                 } catch (Exception ex) {
                     processError(request, response, "File Upload Failed due to " + ex.getMessage(),
                             "/view/create_homework.jsp");
@@ -79,7 +88,7 @@ public class HomeworkServlet extends HttpServlet {
 
     private void getHomework(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Integer homeworkId = Integer.valueOf(req.getParameter("id"));
-        Homework homework = service.getHomework(homeworkId);
+        Homework homework = homeworks.getHomework(homeworkId);
         File file = new File(homework.getPath());
         if (!file.exists()) {
             processError(req, resp, "No File found", "/view/course_details.jsp");

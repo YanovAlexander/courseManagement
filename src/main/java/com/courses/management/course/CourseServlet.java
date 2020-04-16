@@ -20,7 +20,7 @@ public class CourseServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        service = new Courses(new CourseDAOImpl(HibernateDatabaseConnector.getSessionFactory()));
+        service = new Courses(new CourseDAOImpl());
     }
 
     @Override

@@ -1,10 +1,10 @@
 package com.courses.management.course;
 
 import com.courses.management.common.exceptions.SQLCourseException;
+import com.courses.management.config.HibernateDatabaseConnector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.List;
@@ -13,17 +13,15 @@ public class CourseDAOImpl implements CourseDAO {
     private final static Logger LOG = LogManager.getLogger(CourseDAOImpl.class);
     private final static String UPDATE_COURSE = "UPDATE course SET " +
             "title=?, status=? WHERE id=?";
-    private SessionFactory sessionFactory;
 
-    public CourseDAOImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public CourseDAOImpl() {
     }
 
     @Override
     public void create(Course course) {
         LOG.debug(String.format("create: course.title=%s", course.getTitle()));
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = HibernateDatabaseConnector.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.save(course);
             transaction.commit();
@@ -41,7 +39,7 @@ public class CourseDAOImpl implements CourseDAO {
         LOG.debug(String.format("update: course.title=%s, course.status=%s", course.getTitle(),
                 course.getCourseStatus()));
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = HibernateDatabaseConnector.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.update(course);
             transaction.commit();
@@ -64,7 +62,7 @@ public class CourseDAOImpl implements CourseDAO {
         LOG.debug(String.format("get: course.id=%s", id));
         Course course = null;
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = HibernateDatabaseConnector.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             course = session.get(Course.class, id);
         } catch (Exception e) {
@@ -83,7 +81,7 @@ public class CourseDAOImpl implements CourseDAO {
         Transaction transaction = null;
         List<Course> courses;
 
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = HibernateDatabaseConnector.getSessionFactory().openSession()) {
             courses = session.createQuery("FROM Course").getResultList();
             return courses;
         } catch (Exception e) {
@@ -98,7 +96,7 @@ public class CourseDAOImpl implements CourseDAO {
         Transaction transaction = null;
         Course course = null;
 
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = HibernateDatabaseConnector.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             course = (Course) session.createQuery("from Course as c where c.title=:title")
                     .setParameter("title", title).uniqueResult();
