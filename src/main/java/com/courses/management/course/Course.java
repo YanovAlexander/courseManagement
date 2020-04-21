@@ -34,7 +34,8 @@ public class Course extends BaseEntity {
         this.title = title;
     }
 
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "course")
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "course")
     public List<User> getUsers() {
         return users;
     }

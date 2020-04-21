@@ -8,33 +8,27 @@ import java.util.List;
 
 public class Courses {
     private static final Logger LOG = LogManager.getLogger(Courses.class);
-    private CourseDAO courseDAO;
+    private CourseRepository courseRepository;
 
-    public Courses(CourseDAO courseDAO) {
-        this.courseDAO = courseDAO;
-    }
-
-    public static void printCourse(View view, Course course) {
-        view.write("Course:");
-        view.write(String.format("\t title = %s", course.getTitle()));
-        view.write(String.format("\t status = %s", course.getCourseStatus()));
+    public Courses(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
     }
 
     public List<Course> showCourses() {
-        return courseDAO.getAll();
+        return courseRepository.findAll();
     }
 
     public Course getById(Integer id) {
-        final Course course = courseDAO.get(id);
+        final Course course = courseRepository.findById(id).get();
         return course;
     }
 
     public Course getByTitle(String title) {
-        return courseDAO.get(title);
+        return courseRepository.getByTitle(title);
     }
 
     public Course createCourse(Course course) {
-        courseDAO.create(course);
+        courseRepository.save(course);
         return course;
     }
 }
