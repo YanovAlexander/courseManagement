@@ -8,14 +8,19 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
 public class HomeworkDAOImpl implements HomeworkDAO {
     private final static Logger LOG = LogManager.getLogger(CourseDAOImpl.class);
 
-    public HomeworkDAOImpl() {
+    private JdbcTemplate template;
 
+    @Autowired
+    public HomeworkDAOImpl(JdbcTemplate jdbcTemplate) {
+        this.template = jdbcTemplate;
     }
 
     @Override
@@ -23,15 +28,11 @@ public class HomeworkDAOImpl implements HomeworkDAO {
         LOG.debug(String.format("create: homework.title=%s " +
                 "homework.path=%s" +
                 "homework.course_id=%s", homework.getTitle(), homework.getPath(), homework.getCourse().getId()));
-        Transaction transaction = null;
-        try (Session session = HibernateDatabaseConnector.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            session.save(homework);
-            transaction.commit();
+        try {
+            template.update("INSERT INTO home_work(title, text, file_path, course_id) " +
+                            "VALUES (?, ?, ?, ?)", homework.getTitle(), homework.getText(),
+                    homework.getPath(), homework.getCourse().getId());
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             LOG.error(String.format("create: homework.title=%s", homework.getTitle()), e);
             throw new SQLUserException("Error occurred when creating a homework");
         }
