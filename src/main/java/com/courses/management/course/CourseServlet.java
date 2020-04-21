@@ -2,8 +2,9 @@ package com.courses.management.course;
 
 import com.courses.management.common.Validator;
 import com.courses.management.common.exceptions.ErrorMessage;
-import com.courses.management.config.HibernateDatabaseConnector;
-import com.courses.management.user.UserDAOImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,13 +15,14 @@ import java.io.IOException;
 import java.util.*;
 
 @WebServlet(urlPatterns = "/course/*")
+@Configurable
 public class CourseServlet extends HttpServlet {
-    private Courses service;
+    private Courses courses;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        service = new Courses(new CourseDAOImpl());
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     @Override
@@ -28,12 +30,12 @@ public class CourseServlet extends HttpServlet {
         String action = getAction(req);
 
         if (action.startsWith("/showCourses")) {
-            List<Course> courses = service.showCourses();
+            List<Course> courses = this.courses.showCourses();
             req.setAttribute("courses", courses);
             req.getRequestDispatcher("/view/show_courses.jsp").forward(req, resp);
         } else if (action.startsWith("/get")) {
             final String id = req.getParameter("id");
-            final Course course = service.getById(Integer.valueOf(id));
+            final Course course = courses.getById(Integer.valueOf(id));
             req.setAttribute("course", course);
             req.getRequestDispatcher("/view/course_details.jsp").forward(req, resp);
         } else if (action.startsWith("/createCourse")) {
@@ -53,11 +55,16 @@ public class CourseServlet extends HttpServlet {
                 req.setAttribute("courseStatuses", CourseStatus.values());
                 req.getRequestDispatcher("/view/create_course.jsp").forward(req, resp);
             } else {
-                service.createCourse(course);
+                courses.createCourse(course);
                 req.setAttribute("course_title", course.getTitle());
                 req.getRequestDispatcher("/view/course_created.jsp").forward(req, resp);
             }
         }
+    }
+
+    @Autowired
+    public void setCourses(Courses courses) {
+        this.courses = courses;
     }
 
     private Course mapCourse(HttpServletRequest req) {
@@ -72,7 +79,7 @@ public class CourseServlet extends HttpServlet {
 
     private List<ErrorMessage> validateCourse(Course course) {
         final List<ErrorMessage> errorMessages = Validator.validateEntity(course);
-        final Course persistentCourse = service.getByTitle(course.getTitle());
+        final Course persistentCourse = courses.getByTitle(course.getTitle());
         if (Objects.nonNull(persistentCourse) && !persistentCourse.getTitle().isEmpty()) {
             errorMessages.add(new ErrorMessage("", "course with title already exists"));
         }

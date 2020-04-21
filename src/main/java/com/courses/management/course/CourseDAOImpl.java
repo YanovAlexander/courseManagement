@@ -11,11 +11,6 @@ import java.util.List;
 
 public class CourseDAOImpl implements CourseDAO {
     private final static Logger LOG = LogManager.getLogger(CourseDAOImpl.class);
-    private final static String UPDATE_COURSE = "UPDATE course SET " +
-            "title=?, status=? WHERE id=?";
-
-    public CourseDAOImpl() {
-    }
 
     @Override
     public void create(Course course) {

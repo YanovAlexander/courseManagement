@@ -16,4 +16,7 @@
         <constructor-arg ref="homeworkDAO"/>
         <constructor-arg ref="courseDAO"/>
     </bean>
+    <bean id="courses" class="com.courses.management.course.Courses">
+        <constructor-arg ref="courseDAO"/>
+    </bean>
 </beans>
