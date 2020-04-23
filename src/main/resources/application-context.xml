@@ -3,55 +3,26 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
  		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
  		http://www.springframework.org/schema/context
- 		http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/data/jpa https://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+ 		http://www.springframework.org/schema/context/spring-context-3.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/data/jpa https://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <import resource="spring-beans.xml"/>
+    <import resource="spring-data-beans.xml"/>
 
     <context:spring-configured/>
     <context:annotation-config/>
     <context:component-scan base-package="com.courses.management"/>
+    <mvc:annotation-driven/>
 
-    <jpa:repositories base-package="com.courses.management" entity-manager-factory-ref="emf"
-                      transaction-manager-ref="transactionManager"/>
-
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-
-    <bean id="courses" class="com.courses.management.course.Courses">
-        <constructor-arg ref="courseRepository"/>
-    </bean>
-
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/course_management"/>
-        <property name="username" value="postgres"/>
-        <property name="password" value="admin"/>
-    </bean>
-
-    <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix">
+            <value>/view/</value>
         </property>
-        <property name="persistenceProvider">
-            <bean class="org.hibernate.jpa.HibernatePersistenceProvider"/>
+        <property name="suffix">
+            <value>.jsp</value>
         </property>
-        <property name="packagesToScan" value="com.courses.management"/>
-        <property name="jpaProperties">
-            <props>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</prop>
-                <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
-            </props>
-        </property>
-    </bean>
-
-    <bean id="homeworks" class="com.courses.management.homework.Homeworks">
-        <constructor-arg ref="homeworkRepository"/>
-        <constructor-arg ref="courseRepository"/>
-    </bean>
-
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="emf"/>
     </bean>
 </beans>

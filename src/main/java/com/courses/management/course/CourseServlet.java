@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-@WebServlet(urlPatterns = "/course/*")
-@Configurable
+//@WebServlet(urlPatterns = "/course/*")
+//@Configurable
 public class CourseServlet extends HttpServlet {
     private Courses courses;
 
