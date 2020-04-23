@@ -1,6 +1,5 @@
 package com.courses.management.course;
 
-import com.courses.management.common.View;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,8 +18,8 @@ public class Courses {
     }
 
     public Course getById(Integer id) {
-        final Course course = courseRepository.findById(id).get();
-        return course;
+        return courseRepository.findById(id)
+                .orElse(new Course());
     }
 
     public Course getByTitle(String title) {
