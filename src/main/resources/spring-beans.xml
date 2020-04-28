@@ -11,5 +11,10 @@
     <bean id="homeworks" class="com.courses.management.homework.Homeworks">
         <constructor-arg ref="homeworkRepository"/>
         <constructor-arg ref="courseRepository"/>
+        <property name="folderPath" value="${folder_path}"/>
+    </bean>
+
+    <bean id="homeworkController" class="com.courses.management.homework.HomeworkController">
+        <property name="homeworks" ref="homeworks"/>
     </bean>
 </beans>

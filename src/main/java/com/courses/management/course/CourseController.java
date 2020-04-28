@@ -25,7 +25,6 @@ public class CourseController {
     @GetMapping(path = "/showCourses")
     public String showCourses(Model model) {
         model.addAttribute("courses", courses.showCourses());
-        System.out.println("HELLO");
         return "show_courses";
     }
 

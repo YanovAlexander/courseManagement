@@ -12,6 +12,7 @@ import java.util.Objects;
 public class Homeworks {
     private HomeworkRepository homeworkRepository;
     private CourseRepository courseRepository;
+    private String folderPath;
 
     public Homeworks(HomeworkRepository homeworkRepository, CourseRepository courseRepository) {
         this.homeworkRepository = homeworkRepository;
@@ -50,7 +51,7 @@ public class Homeworks {
         Homework homework = new Homework();
         homework.setCourse(course);
         String title = new File(item.getName()).getName();
-        String path = PropertiesUtil.getFolderPath() + File.separator + course.getTitle() + File.separator + title;
+        String path = String.format("%s%s%s%s%s", folderPath, File.separator, course.getTitle(), File.separator, title);
         homework.setTitle(title);
         homework.setPath(path);
         return homework;
@@ -58,5 +59,9 @@ public class Homeworks {
 
     public Homework getHomework(Integer id) {
         return  homeworkRepository.findById(id).orElse(new Homework());
+    }
+
+    public void setFolderPath(String folderPath) {
+        this.folderPath = folderPath;
     }
 }
