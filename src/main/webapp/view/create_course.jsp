@@ -17,7 +17,7 @@
         <label>Course title
             <span class="small">Course title</span>
         </label>
-        <form:input type="text" path="title" id="title" /> <form:errors path="title" cssClass="error"/>
+        <form:input type="text" path="title" id="title"/> <form:errors path="title" cssClass="error"/>
 
         <label>Course Status
             <span class="small">Select status</span>
@@ -28,6 +28,11 @@
         <button type="submit" class="button">Create</button>
         <div class="spacer"></div>
     </form:form>
+    <c:if test="${not empty errors}">
+        <c:forEach items="${errors}" var="error">
+            <p style="color: red">${error.field} ${error.error}</p>
+        </c:forEach>
+    </c:if>
 </div>
 
 </body>

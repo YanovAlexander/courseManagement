@@ -1,5 +1,6 @@
 package com.courses.management.course;
 
+import com.courses.management.common.exceptions.ErrorMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
+
 
 @Controller
 @RequestMapping(path = "/course/*")
@@ -46,10 +49,15 @@ public class CourseController {
             model.addAttribute("courseStatuses", CourseStatus.values());
             return "create_course";
         }
-
-        courses.createCourse(course);
-        model.addAttribute("course_title", course.getTitle());
-        return "course_created";
+        try {
+            courses.createCourse(course);
+            model.addAttribute("course_title", course.getTitle());
+            return "course_created";
+        } catch (CourseAlreadyExistsError e) {
+            model.addAttribute("courseStatuses", CourseStatus.values());
+            model.addAttribute("errors", List.of(new ErrorMessage("", e.getMessage())));
+            return "create_course";
+        }
     }
 
     @ModelAttribute("course")
