@@ -3,6 +3,8 @@ package com.courses.management.homework;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,7 @@ import java.util.List;
 @Controller
 @RequestMapping(path = "/homework")
 public class HomeworkController {
+    private static final Logger LOG = LogManager.getLogger(HomeworkController.class);
     private Homeworks homeworks;
 
     public void setHomeworks(Homeworks homeworks) {
@@ -29,7 +32,7 @@ public class HomeworkController {
     }
 
     @GetMapping(path = "/upload")
-    public String getCreateHomeworkPage (@RequestParam("course_id") String courseId, Model model) {
+    public String getCreateHomeworkPage(@RequestParam("course_id") String courseId, Model model) {
         model.addAttribute("courseId", courseId);
         return "create_homework";
     }
@@ -61,6 +64,7 @@ public class HomeworkController {
                 List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
                 homeworks.uploadFile(multiparts, courseId);
             } catch (Exception ex) {
+                LOG.error(String.format("uploadHomeWork: courseId=%d", courseId), ex);
                 model.addAttribute("error", "File upload failed dues to " + ex);
                 return new ModelAndView("create_homework", model);
             }
@@ -73,6 +77,7 @@ public class HomeworkController {
 
     @ExceptionHandler({FileNotFoundException.class})
     public ModelAndView handleException(FileNotFoundException ex) {
+        LOG.error("handleException FileNotFoundException: ", ex);
         final ModelAndView modelAndView = new ModelAndView("file_not_found");
         modelAndView.addObject("error", ex.getMessage());
         modelAndView.setStatus(HttpStatus.BAD_REQUEST);

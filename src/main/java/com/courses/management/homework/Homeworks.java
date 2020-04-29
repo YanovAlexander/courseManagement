@@ -3,12 +3,15 @@ package com.courses.management.homework;
 import com.courses.management.course.Course;
 import com.courses.management.course.CourseRepository;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.List;
 import java.util.Objects;
 
 public class Homeworks {
+    private static final Logger LOG = LogManager.getLogger(Homeworks.class);
     private HomeworkRepository homeworkRepository;
     private CourseRepository courseRepository;
     private String folderPath;
@@ -19,6 +22,7 @@ public class Homeworks {
     }
 
     public void uploadFile(List<FileItem> items, Integer courseId) {
+        LOG.debug(String.format("uploadFile: courseId=%d", courseId));
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException(String.format("Course with id = %s not found", courseId)));
         Homework homework = null;
@@ -33,6 +37,7 @@ public class Homeworks {
                 }
             }
         } catch (Exception e) {
+            LOG.error(String.format("uploadFile: courseId=%d", courseId), e);
             if (Objects.nonNull(homework) && homework.getId() != 0) {
                 homeworkRepository.delete(homework);
             }
@@ -47,6 +52,7 @@ public class Homeworks {
     }
 
     private Homework createHomework(Course course, FileItem item) {
+        LOG.debug(String.format("createHomework: courseId=%d, fileName=%s", course.getId(), item.getName()));
         Homework homework = new Homework();
         homework.setCourse(course);
         String title = new File(item.getName()).getName();
@@ -57,6 +63,7 @@ public class Homeworks {
     }
 
     public Homework getHomework(Integer id) {
+        LOG.debug(String.format("getHomework: id=%d", id));
         return  homeworkRepository.findById(id).orElse(new Homework());
     }
 

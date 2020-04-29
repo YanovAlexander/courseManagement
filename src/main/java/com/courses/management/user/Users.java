@@ -15,15 +15,18 @@ public class Users {
     }
 
     public List<User> getAllUsers() {
+        LOG.debug("getAllUsers: ");
         return repository.findAll();
     }
 
     public User getUser(Integer id) {
+        LOG.debug(String.format("getUser: id=%d", id));
         return repository.findById(id)
                 .orElseThrow(() -> new UserNotExistsException(String.format("User with id = %s not found", id)));
     }
 
     public User getUser(String email) {
+        LOG.debug(String.format("getUser: email=%d", email));
         final User user = repository.findByEmail(email)
                 .orElseThrow(() ->  new UserNotExistsException("User not found by specified email"));
         return user;
