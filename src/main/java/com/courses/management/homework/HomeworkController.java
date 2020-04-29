@@ -3,6 +3,7 @@ package com.courses.management.homework;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -68,5 +69,13 @@ public class HomeworkController {
             return new ModelAndView("create_homework", model);
         }
         return new ModelAndView(String.format("redirect:/course/get?id=%s", courseId));
+    }
+
+    @ExceptionHandler({FileNotFoundException.class})
+    public ModelAndView handleException(FileNotFoundException ex) {
+        final ModelAndView modelAndView = new ModelAndView("file_not_found");
+        modelAndView.addObject("error", ex.getMessage());
+        modelAndView.setStatus(HttpStatus.BAD_REQUEST);
+        return modelAndView;
     }
 }
