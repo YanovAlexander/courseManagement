@@ -28,7 +28,7 @@ public class Courses {
     }
 
     public Course createCourse(Course course) {
-        if (Objects.isNull(getByTitle(course.getTitle()))) {
+        if (Objects.nonNull(getByTitle(course.getTitle()))) {
             throw new CourseAlreadyExistsError(
                     String.format("course with title %s already exists", course.getTitle()));
         }
