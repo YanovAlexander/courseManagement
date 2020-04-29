@@ -15,6 +15,7 @@
         <tr>
             <th>Title</th>
             <th>Course Status</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>

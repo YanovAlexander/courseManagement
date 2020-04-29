@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping(path = "/course/*")
+@RequestMapping(path = "/course")
 public class CourseController {
     private Courses courses;
 

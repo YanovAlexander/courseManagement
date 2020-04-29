@@ -1,6 +1,5 @@
 package com.courses.management.homework;
 
-import com.courses.management.common.PropertiesUtil;
 import com.courses.management.course.Course;
 import com.courses.management.course.CourseRepository;
 import org.apache.commons.fileupload.FileItem;

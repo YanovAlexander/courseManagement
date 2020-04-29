@@ -20,7 +20,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 @Controller
-@RequestMapping(path = "/homework/*")
+@RequestMapping(path = "/homework")
 public class HomeworkController {
     private Homeworks homeworks;
 
