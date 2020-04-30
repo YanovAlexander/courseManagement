@@ -12,4 +12,5 @@ public class MainController {
     public String doGet() {
         return "index";
     }
+
 }

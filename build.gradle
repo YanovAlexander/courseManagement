@@ -15,6 +15,7 @@ ext {
     hibernateVersion = '5.4.10.Final'
     log4jVersion = '2.12.1'
     springVersion = '5.2.4.RELEASE'
+    springSecurityVersion = '5.2.3.RELEASE'
 }
 
 dependencies {
@@ -36,6 +37,8 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-jdbc', version: "${springVersion}"
     compile group: 'org.springframework', name: 'spring-webmvc', version: "${springVersion}"
     compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '2.2.6.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-web', version: '5.2.3.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-config', version: '5.2.3.RELEASE'
 
     compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
     providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
