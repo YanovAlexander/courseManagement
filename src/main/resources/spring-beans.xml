@@ -20,9 +20,19 @@
 
     <bean id="users" class="com.courses.management.user.Users">
         <constructor-arg ref="userRepository"/>
+        <property name="encoder" ref="passwordEncoder"/>
     </bean>
 
     <bean id="userController" class="com.courses.management.user.UserController">
         <property name="users" ref="users"/>
+    </bean>
+
+    <bean id="usersDetailsService" class="com.courses.management.user.auth.UsersDetailsService">
+        <constructor-arg ref="userRepository"/>
+    </bean>
+    <bean id="user" class="com.courses.management.user.User"/>
+
+    <bean id="userPrincipals" class="com.courses.management.user.auth.UserPrincipal">
+        <constructor-arg ref="user"/>
     </bean>
 </beans>

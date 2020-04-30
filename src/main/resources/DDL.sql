@@ -95,3 +95,8 @@ ALTER TABLE home_work
 
 ALTER TABLE solution
     RENAME COLUMN home_work_id TO homework_id;
+
+ALTER TABLE users
+    ADD COLUMN password VARCHAR NOT NULL DEFAULT '123';
+
+ALTER TABLE users ALTER COLUMN user_role TYPE VARCHAR(20);

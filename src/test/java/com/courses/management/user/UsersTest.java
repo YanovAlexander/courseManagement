@@ -7,7 +7,7 @@ public class UsersTest {
         user.setLastName("Yanov");
         user.setEmail("oleksandr.yanov@email.com");
         user.setStatus(UserStatus.NOT_ACTIVE);
-        user.setUserRole(UserRole.NEWCOMER);
+        user.setUserRole(UserRole.ROLE_NEWCOMER);
         return user;
     }
 }

@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,10 @@
 </head>
 <body>
 <c:import url="/view/navibar.jsp"/>
-<h3>Hello World</h3>
+<h2>Welcome <security:authentication property="principal.username"/>
+    <form method="post" action="/logout">
+        <button type="submit">Logout</button>
+    </form>
+</h2>
 </body>
 </html>

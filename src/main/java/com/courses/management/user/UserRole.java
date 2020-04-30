@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum UserRole {
-    ADMIN("ADMIN"),
-    STUDENT("STUDENT"),
-    NEWCOMER("NEWCOMER");
+    ROLE_ADMIN("ROLE_ADMIN"),
+    ROLE_STUDENT("ROLE_STUDENT"),
+    ROLE_NEWCOMER("ROLE_NEWCOMER");
 
     private String role;
 
