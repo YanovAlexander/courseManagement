@@ -9,10 +9,5 @@
 </head>
 <body>
 <c:import url="/view/navibar.jsp"/>
-<h2>Welcome <security:authentication property="principal.username"/>
-    <form method="post" action="/logout">
-        <button type="submit">Logout</button>
-    </form>
-</h2>
 </body>
 </html>

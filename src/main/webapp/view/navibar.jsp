@@ -1,3 +1,4 @@
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <div class="navbar">
     <a href="${pageContext.request.contextPath}/">Home</a>
     <div class="dropdown">
@@ -19,5 +20,11 @@
             <a href="#">Create User</a>
             <a href="${pageContext.request.contextPath}/user/findPage">Find User</a>
         </div>
+    </div>
+    <div>
+        <a style="float: right" href="${pageContext.request.contextPath}/logout">Logout</a>
+    </div>
+    <div>
+        <p><security:authentication property="principal.username"/></p>
     </div>
 </div>
