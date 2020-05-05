@@ -1,4 +1,4 @@
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <div class="navbar">
     <a href="${pageContext.request.contextPath}/">Home</a>
     <div class="dropdown">
@@ -7,7 +7,9 @@
         </button>
         <div class="dropdown-content">
             <a href="${pageContext.request.contextPath}/course/showCourses">Show Courses</a>
-            <a href="${pageContext.request.contextPath}/course/createCourse">Create Course</a>
+            <security:authorize access="hasRole('ROLE_ADMIN')">
+                <a href="${pageContext.request.contextPath}/course/createCourse">Create Course</a>
+            </security:authorize>
             <a href="${pageContext.request.contextPath}/course/findCourse">Find Course</a>
         </div>
     </div>
@@ -17,7 +19,9 @@
         </button>
         <div class="dropdown-content">
             <a href="${pageContext.request.contextPath}/user/showUsers">Show Users</a>
-            <a href="#">Create User</a>
+            <security:authorize access="hasRole('ROLE_ADMIN')">
+                <a href="#">Create User</a>
+            </security:authorize>
             <a href="${pageContext.request.contextPath}/user/findPage">Find User</a>
         </div>
     </div>

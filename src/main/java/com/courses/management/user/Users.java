@@ -32,7 +32,7 @@ public class Users {
     }
 
     public User getUser(String email) {
-        LOG.debug(String.format("getUser: email=%d", email));
+        LOG.debug(String.format("getUser: email=%s", email));
         final User user = repository.findByEmail(email)
                 .orElseThrow(() ->  new UserNotExistsException("User not found by specified email"));
         return user;

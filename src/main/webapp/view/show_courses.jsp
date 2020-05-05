@@ -9,31 +9,37 @@
 </head>
 <body>
 <c:import url="/view/navibar.jsp"/>
-<c:if test="${not empty courses}">
-    <table class="zui-table myform">
-        <thead>
-        <tr>
-            <th>Title</th>
-            <th>Course Status</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${courses}" var="course">
+<c:choose>
+    <c:when test="${not empty courses}">
+        <table class="zui-table myform">
+            <thead>
             <tr>
-                <td>
-                    <c:out value="${course.title}"/>
-                </td>
-                <td>
-                    <c:out value="${course.courseStatus}"/>
-                </td>
-                <td>
-                    <a href="${pageContext.request.contextPath}/course/get?id=${course.id}" class="button" role="button" tabindex="0">Detailed</a>
-                </td>
+                <th>Title</th>
+                <th>Course Status</th>
+                <th></th>
             </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-</c:if>
+            </thead>
+            <tbody>
+            <c:forEach items="${courses}" var="course">
+                <tr>
+                    <td>
+                        <c:out value="${course.title}"/>
+                    </td>
+                    <td>
+                        <c:out value="${course.courseStatus}"/>
+                    </td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/course/get?id=${course.id}" class="button"
+                           role="button" tabindex="0">Detailed</a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </c:when>
+    <c:otherwise>
+        <p>There is no courses, please contact admin</p>
+    </c:otherwise>
+</c:choose>
 </body>
 </html>
