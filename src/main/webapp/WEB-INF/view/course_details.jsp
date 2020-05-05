@@ -1,14 +1,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
     <title>Course Details</title>
-    <style>
-        <%@include file="/view/css/style.css" %>
-    </style>
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet"/>
 </head>
 <body>
-<c:import url="/view/navibar.jsp"/>
+<c:import url="${contextPath}/WEB-INF/view/navibar.jsp"/>
 <div align="center">
     <table class="zui-table">
         <thead>

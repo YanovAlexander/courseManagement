@@ -6,6 +6,7 @@ import com.courses.management.homework.Homework;
 import com.courses.management.user.User;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -14,7 +15,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "course")
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "Course")
+@Component
 public class Course extends BaseEntity {
     private String title;
     private List<User> users;

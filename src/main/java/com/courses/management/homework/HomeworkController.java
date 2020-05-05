@@ -5,6 +5,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,7 @@ public class HomeworkController {
     private static final Logger LOG = LogManager.getLogger(HomeworkController.class);
     private Homeworks homeworks;
 
+    @Autowired
     public void setHomeworks(Homeworks homeworks) {
         this.homeworks = homeworks;
     }

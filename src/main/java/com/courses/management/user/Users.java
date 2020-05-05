@@ -2,10 +2,13 @@ package com.courses.management.user;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class Users {
     private static final Logger LOG = LogManager.getLogger(Users.class);
 
@@ -16,6 +19,7 @@ public class Users {
         this.repository = repository;
     }
 
+    @Autowired
     public void setEncoder(BCryptPasswordEncoder encoder) {
         this.encoder = encoder;
     }
