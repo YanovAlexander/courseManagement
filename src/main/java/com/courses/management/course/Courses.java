@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class Courses {
+public class Courses implements CourseService {
     private static final Logger LOG = LogManager.getLogger(Courses.class);
     private CourseRepository courseRepository;
 
@@ -18,22 +18,26 @@ public class Courses {
         this.courseRepository = courseRepository;
     }
 
+    @Override
     public List<Course> showCourses() {
         LOG.debug("showCourses: ");
         return courseRepository.findAll();
     }
 
+    @Override
     public Course getById(Integer id) {
         LOG.debug(String.format("getById: id=%d", id));
         return courseRepository.findById(id)
                 .orElse(new Course());
     }
 
+    @Override
     public Course getByTitle(String title) {
         LOG.debug(String.format("getByTitle: title=%s", title));
         return courseRepository.getByTitle(title);
     }
 
+    @Override
     public Course createCourse(Course course) {
         LOG.debug(String.format("createCourse: courseTitle=%s", course.getTitle()));
 

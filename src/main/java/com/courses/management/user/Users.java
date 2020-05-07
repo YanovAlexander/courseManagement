@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class Users {
+public class Users implements UserService {
     private static final Logger LOG = LogManager.getLogger(Users.class);
 
     private UserRepository repository;
@@ -24,24 +24,28 @@ public class Users {
         this.encoder = encoder;
     }
 
+    @Override
     public List<User> getAllUsers() {
         LOG.debug("getAllUsers: ");
         return repository.findAll();
     }
 
+    @Override
     public User getUser(Integer id) {
         LOG.debug(String.format("getUser: id=%d", id));
         return repository.findById(id)
                 .orElseThrow(() -> new UserNotExistsException(String.format("User with id = %s not found", id)));
     }
 
+    @Override
     public User getUser(String email) {
         LOG.debug(String.format("getUser: email=%s", email));
         final User user = repository.findByEmail(email)
-                .orElseThrow(() ->  new UserNotExistsException("User not found by specified email"));
+                .orElseThrow(() -> new UserNotExistsException("User not found by specified email"));
         return user;
     }
 
+    @Override
     public void registerUser(User user) {
         if (emailExists(user.getEmail())) {
             throw new UserAlreadyExistsException("There is an account with that email address: " + user.getEmail());

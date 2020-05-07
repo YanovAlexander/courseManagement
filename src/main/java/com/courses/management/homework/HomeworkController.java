@@ -26,10 +26,10 @@ import java.util.List;
 @RequestMapping(path = "/homework")
 public class HomeworkController {
     private static final Logger LOG = LogManager.getLogger(HomeworkController.class);
-    private Homeworks homeworks;
+    private HomeworkService homeworks;
 
     @Autowired
-    public void setHomeworks(Homeworks homeworks) {
+    public void setHomeworks(HomeworkService homeworks) {
         this.homeworks = homeworks;
     }
 

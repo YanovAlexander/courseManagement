@@ -1,7 +1,5 @@
 package com.courses.management.common.exceptions;
 
-import java.util.List;
-
 public class ErrorMessage {
     private String field;
     private String error;

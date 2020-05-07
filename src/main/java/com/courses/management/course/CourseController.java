@@ -3,6 +3,7 @@ package com.courses.management.course;
 import com.courses.management.common.exceptions.ErrorMessage;
 import com.courses.management.user.User;
 import com.courses.management.user.UserRole;
+import com.courses.management.user.UserService;
 import com.courses.management.user.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,11 +24,11 @@ import java.util.Objects;
 @Controller
 @RequestMapping(path = "/course")
 public class CourseController {
-    private Courses courses;
-    private Users users;
+    private CourseService courses;
+    private UserService users;
 
     @Autowired
-    public void setCourses(Courses courses, Users users) {
+    public void setCourses(CourseService courses, UserService users) {
         this.courses = courses;
         this.users = users;
     }

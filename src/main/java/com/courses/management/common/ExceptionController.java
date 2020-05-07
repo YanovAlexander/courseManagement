@@ -16,7 +16,6 @@ public class ExceptionController {
         LOG.error("handleException Exception: ", ex);
         final ModelAndView modelAndView = new ModelAndView("error");
         modelAndView.addObject("error", ex.getMessage());
-        modelAndView.setStatus(HttpStatus.BAD_REQUEST);
         return modelAndView;
     }
 }

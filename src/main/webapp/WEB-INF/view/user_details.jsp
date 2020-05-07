@@ -16,7 +16,9 @@
             <th>Email</th>
             <th>User role</th>
             <th>User status</th>
-            <th>Course</th>
+            <c:if test="${not empty user.course}">
+                <th>Course</th>
+            </c:if>
             <th>Solutions</th>
         </tr>
         </thead>
@@ -34,16 +36,19 @@
             <td>
                 ${user.status}
             </td>
-            <td>
-                <a href="${pageContext.request.contextPath}/course/get?id=${user.course.id}" class="button"
-                   role="button" tabindex="0">${user.course.title}</a>
-            </td>
+            <c:if test="${not empty user.course}">
+                <td>
+                    <a href="${pageContext.request.contextPath}/course/get?id=${user.course.id}" class="button"
+                       role="button" tabindex="0">${user.course.title}</a>
+                </td>
+            </c:if>
             <td>
                 <ul>
                     <c:choose>
                         <c:when test="${not empty user.solutions}">
                             <c:forEach items="${user.solutions}" var="solution">
-                                <li><a href="${pageContext.request.contextPath}/solution/get?id=${solution.id}" class="button"
+                                <li><a href="${pageContext.request.contextPath}/solution/get?id=${solution.id}"
+                                       class="button"
                                        role="button"
                                        tabindex="0">${solution.homework.title}</a><br>
                                 </li>
