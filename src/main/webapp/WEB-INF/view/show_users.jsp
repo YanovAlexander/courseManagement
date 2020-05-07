@@ -28,8 +28,10 @@
                         ${user.email}
                 </td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/course/get?id=${user.course.id}" class="button"
-                       role="button" tabindex="0">${user.course.title}</a>
+                    <c:if test="${not empty user.course}">
+                        <a href="${pageContext.request.contextPath}/course/get?id=${user.course.id}" class="button"
+                           role="button" tabindex="0">${user.course.title}</a>
+                    </c:if>
                 </td>
                 <td>
                     <a href="${pageContext.request.contextPath}/user/get?id=${user.id}" class="button" role="button"

@@ -72,7 +72,7 @@ public class Homeworks {
         return  homeworkRepository.findById(id).orElse(new Homework());
     }
 
-    @Value("folder_path")
+    @Value("${folder_path}")
     public void setFolderPath(String folderPath) {
         this.folderPath = folderPath;
     }

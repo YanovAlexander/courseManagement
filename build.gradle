@@ -17,30 +17,20 @@ ext {
     springSecurityVersion = '5.2.3.RELEASE'
 }
 
+configurations {
+    compile.exclude module: 'spring-boot-starter-logging'
+    compile.exclude module: 'logback-classic'
+}
+
 dependencies {
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
-//    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: "${log4jVersion}"
-//    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: "${log4jVersion}"
-//    implementation group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.30'
     implementation group: 'jstl', name: 'jstl', version: '1.2'
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
 
-    implementation ('org.springframework.boot:spring-boot-starter-web'){
-        exclude module: "spring-boot-starter-logging"
-        exclude module: "logback-classic"
-    }
-    testImplementation ('org.springframework.boot:spring-boot-starter-test'){
-        exclude module: "spring-boot-starter-logging"
-        exclude module: "logback-classic"
-    }
-    implementation ('org.springframework.boot:spring-boot-starter-data-jpa'){
-        exclude module: "spring-boot-starter-logging"
-        exclude module: "logback-classic"
-    }
-    implementation ('org.springframework.boot:spring-boot-starter-security'){
-        exclude module: "spring-boot-starter-logging"
-        exclude module: "logback-classic"
-    }
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation ('org.springframework.boot:spring-boot-starter-test')
+    implementation ('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation ('org.springframework.boot:spring-boot-starter-security')
     implementation 'org.springframework.boot:spring-boot-starter-tomcat'
     implementation 'org.springframework.boot:spring-boot-starter-log4j2'
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '9.0.34'
