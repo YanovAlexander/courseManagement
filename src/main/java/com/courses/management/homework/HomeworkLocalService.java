@@ -14,14 +14,14 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class Homeworks implements HomeworkService {
-    private static final Logger LOG = LogManager.getLogger(Homeworks.class);
+public class HomeworkLocalService implements HomeworkService {
+    private static final Logger LOG = LogManager.getLogger(HomeworkLocalService.class);
     private HomeworkRepository homeworkRepository;
     private CourseRepository courseRepository;
     private String folderPath;
 
     @Autowired
-    public Homeworks(HomeworkRepository homeworkRepository, CourseRepository courseRepository) {
+    public HomeworkLocalService(HomeworkRepository homeworkRepository, CourseRepository courseRepository) {
         this.homeworkRepository = homeworkRepository;
         this.courseRepository = courseRepository;
     }

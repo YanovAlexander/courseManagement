@@ -12,23 +12,23 @@ import java.util.List;
 @Controller
 @RequestMapping(path = "/user")
 public class UserController {
-    private Users users;
+    private UserServiceImpl userServiceImpl;
 
     @Autowired
-    public void setUsers(Users users) {
-        this.users = users;
+    public void setUserServiceImpl(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @GetMapping(path = "/showUsers")
     public String getAllUsers(Model model) {
-        List<User> userList = users.getAllUsers();
+        List<User> userList = userServiceImpl.getAllUsers();
         model.addAttribute("users", userList);
         return "show_users";
     }
 
     @GetMapping(path = "/get")
     public String getUserById(@RequestParam("id") Integer id, Model model) {
-        User user = users.getUser(id);
+        User user = userServiceImpl.getUser(id);
         model.addAttribute("user", user);
         return "user_details";
     }
@@ -42,7 +42,7 @@ public class UserController {
     public String findUser(@RequestParam("email") String email, Model model) {
         User user = null;
         try {
-            user = users.getUser(email);
+            user = userServiceImpl.getUser(email);
         } catch (UserNotExistsException e) {
             model.addAttribute("error", e.getMessage());
             return "find_user";
@@ -63,7 +63,7 @@ public class UserController {
         }
 
         try {
-            users.registerUser(user);
+            userServiceImpl.registerUser(user);
         } catch (UserAlreadyExistsException ex) {
             model.addAttribute("message", "An account for that username already exists.");
             return "registration";

@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class Courses implements CourseService {
-    private static final Logger LOG = LogManager.getLogger(Courses.class);
+public class CourseServiceImpl implements CourseService {
+    private static final Logger LOG = LogManager.getLogger(CourseServiceImpl.class);
     private CourseRepository courseRepository;
 
     @Autowired
-    public Courses(CourseRepository courseRepository) {
+    public CourseServiceImpl(CourseRepository courseRepository) {
         this.courseRepository = courseRepository;
     }
 

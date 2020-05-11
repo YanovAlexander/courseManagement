@@ -4,7 +4,6 @@ import com.courses.management.common.exceptions.ErrorMessage;
 import com.courses.management.user.User;
 import com.courses.management.user.UserRole;
 import com.courses.management.user.UserService;
-import com.courses.management.user.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;

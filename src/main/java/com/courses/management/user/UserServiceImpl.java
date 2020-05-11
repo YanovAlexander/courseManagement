@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class Users implements UserService {
-    private static final Logger LOG = LogManager.getLogger(Users.class);
+public class UserServiceImpl implements UserService {
+    private static final Logger LOG = LogManager.getLogger(UserServiceImpl.class);
 
     private UserRepository repository;
     private BCryptPasswordEncoder encoder;
 
-    public Users(UserRepository repository) {
+    public UserServiceImpl(UserRepository repository) {
         this.repository = repository;
     }
 

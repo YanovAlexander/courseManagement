@@ -16,19 +16,19 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-public class UsersTest {
+public class UserServiceImplTest {
     @MockBean
     private UserRepository userRepository;
 
     @Autowired
-    private Users users;
+    private UserServiceImpl userServiceImpl;
 
     @Test
     public void testGetAllUsersShouldReturnEmptyList() {
         //given
         when(userRepository.findAll()).thenReturn(List.of());
         //when
-        final List<User> users = this.users.getAllUsers();
+        final List<User> users = this.userServiceImpl.getAllUsers();
         //then
         assertThat(users.size()).isEqualTo(0);
     }
@@ -38,7 +38,7 @@ public class UsersTest {
         //given
         when(userRepository.findAll()).thenReturn(UserHelper.prepareUsersList());
         //when
-        final List<User> users = this.users.getAllUsers();
+        final List<User> users = this.userServiceImpl.getAllUsers();
         //then
         assertThat(users.size()).isEqualTo(2);
     }
@@ -49,7 +49,7 @@ public class UsersTest {
         final User user = UserHelper.createUser(UserHelper.FIRST_USER_NAME, UserHelper.FIRST_USER_LAST_NAME, UserHelper.FIRST_USER_EMAIL,
                 UserHelper.FIRST_USER_PASSWORD);
         //when
-        this.users.registerUser(user);
+        this.userServiceImpl.registerUser(user);
         //then
         assertThat(user.getPassword()).isNotEqualTo(UserHelper.FIRST_USER_PASSWORD);
         assertThat(user.getStatus()).isEqualTo(UserStatus.ACTIVE);
@@ -62,6 +62,6 @@ public class UsersTest {
                 UserHelper.FIRST_USER_PASSWORD);
         when(userRepository.findByEmail(UserHelper.FIRST_USER_EMAIL)).thenReturn(Optional.of(user));
         //when
-        this.users.registerUser(user);
+        this.userServiceImpl.registerUser(user);
     }
 }
