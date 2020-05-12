@@ -26,11 +26,11 @@ import java.util.List;
 @RequestMapping(path = "/homework")
 public class HomeworkController {
     private static final Logger LOG = LogManager.getLogger(HomeworkController.class);
-    private HomeworkService homeworks;
+    private HomeworkService homeworkService;
 
     @Autowired
-    public void setHomeworks(HomeworkService homeworks) {
-        this.homeworks = homeworks;
+    public void setHomeworks(HomeworkService homeworkService) {
+        this.homeworkService = homeworkService;
     }
 
     @GetMapping(path = "/upload")
@@ -41,7 +41,7 @@ public class HomeworkController {
 
     @GetMapping(path = "/get")
     public void previewHomework(@RequestParam("id") Integer id, HttpServletResponse response) throws IOException {
-        final Homework homework = homeworks.getHomework(id);
+        final Homework homework = homeworkService.getHomework(id);
         final File file = new File(homework.getPath());
         if (!file.exists()) {
             throw new FileNotFoundException("No File found");
@@ -64,7 +64,7 @@ public class HomeworkController {
         if (ServletFileUpload.isMultipartContent(request)) {
             try {
                 List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
-                homeworks.uploadFile(multiparts, courseId);
+                homeworkService.uploadFile(multiparts, courseId);
             } catch (Exception ex) {
                 LOG.error(String.format("uploadHomeWork: courseId=%d", courseId), ex);
                 model.addAttribute("error", "File upload failed dues to " + ex);
