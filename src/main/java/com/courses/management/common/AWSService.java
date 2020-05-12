@@ -15,6 +15,7 @@ public class AWSService implements CommonService {
     private AmazonS3 client;
     private String accessKey;
     private String accessSecret;
+    private static final String S3_BUCKET_NAME = "go-it-bucket";
 
     @PostConstruct
     private void postConstruct() {
@@ -28,11 +29,20 @@ public class AWSService implements CommonService {
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .withRegion(Regions.EU_CENTRAL_1)
                 .build();
+
+        if (!client.doesBucketExistV2(S3_BUCKET_NAME)) {
+            client.createBucket(S3_BUCKET_NAME);
+        }
     }
 
     @Override
     public AmazonS3 getS3Client() {
         return client;
+    }
+
+    @Override
+    public String getS3BucketName() {
+        return S3_BUCKET_NAME;
     }
 
     @Value("${aws.access.key}")
