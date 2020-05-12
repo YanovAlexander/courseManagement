@@ -27,8 +27,12 @@ public class CourseController {
     private UserService users;
 
     @Autowired
-    public void setCourses(CourseService courses, UserService users) {
+    public void setCourses(CourseService courses) {
         this.courses = courses;
+    }
+
+    @Autowired
+    public void setUsers(UserService users) {
         this.users = users;
     }
 
