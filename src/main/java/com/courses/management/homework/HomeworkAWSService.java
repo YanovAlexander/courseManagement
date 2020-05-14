@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -56,11 +56,11 @@ public class HomeworkAWSService implements HomeworkService {
         }
     }
 
-    private void uploadToAWS(Homework homework, FileItem item) {
+    private void uploadToAWS(Homework homework, FileItem item) throws IOException {
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(item.getSize());
         commonService.getS3Client().putObject(commonService.getS3BucketName(), homework.getPath(),
-                new ByteArrayInputStream(item.get()), objectMetadata);
+                item.getInputStream(), objectMetadata);
     }
 
     private Homework createHomework(Course course, FileItem item) {
