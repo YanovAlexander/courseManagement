@@ -42,15 +42,10 @@ public class HomeworkController {
     @GetMapping(path = "/get")
     public void previewHomework(@RequestParam("id") Integer id, HttpServletResponse response) throws IOException {
         final Homework homework = homeworkService.getHomework(id);
-        final File file = new File(homework.getPath());
-        if (!file.exists()) {
-            throw new FileNotFoundException("No File found");
-        }
-
-        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(file.getName()));
-        response.setHeader("Content-Length", String.valueOf(file.length()));
+        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(homework.getTitle()));
+        response.setHeader("Content-Length", String.valueOf(homework.getData().available()));
         response.setHeader("Content-Disposition", String.format("inline; filename=\"%s\"", homework.getTitle()));
-        Files.copy(file.toPath(), response.getOutputStream());
+        homework.getData().transferTo(response.getOutputStream());
     }
 
     @GetMapping(path = "/preview")

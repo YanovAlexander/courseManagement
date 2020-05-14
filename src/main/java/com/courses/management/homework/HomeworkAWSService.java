@@ -1,6 +1,8 @@
 package com.courses.management.homework;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.util.IOUtils;
 import com.courses.management.common.CommonService;
 import com.courses.management.course.Course;
 import com.courses.management.course.CourseRepository;
@@ -11,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -81,7 +85,17 @@ public class HomeworkAWSService implements HomeworkService {
     }
 
     @Override
-    public Homework getHomework(Integer id) {
-        return null;
+    public Homework getHomework(Integer id) throws IOException {
+        LOG.debug(String.format("getHomework: id=%d", id));
+        Homework homework = homeworkRepository.findById(id).orElseThrow(
+                () -> new FileNotFoundException("File doesn't exist"));
+        if (!commonService.getS3Client().doesObjectExist(commonService.getS3BucketName(), homework.getPath())) {
+            throw new FileNotFoundException("No File found");
+        }
+
+        final S3Object s3Object = commonService.getS3Client().getObject(commonService.getS3BucketName(), homework.getPath());
+        final byte[] bytes = IOUtils.toByteArray(s3Object.getObjectContent());
+        homework.setData(new ByteArrayInputStream(bytes));
+        return homework;
     }
 }

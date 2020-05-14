@@ -5,6 +5,7 @@ import com.courses.management.course.Course;
 import com.courses.management.solution.Solution;
 
 import javax.persistence.*;
+import java.io.InputStream;
 import java.util.List;
 
 @Entity
@@ -15,6 +16,7 @@ public class Homework extends BaseEntity {
     private String text;
     private Course course;
     private List<Solution> solutions;
+    private InputStream data;
 
     @Column(name = "title")
     public String getTitle() {
@@ -59,5 +61,14 @@ public class Homework extends BaseEntity {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    @Transient
+    public InputStream getData() {
+        return data;
+    }
+
+    public void setData(InputStream data) {
+        this.data = data;
     }
 }

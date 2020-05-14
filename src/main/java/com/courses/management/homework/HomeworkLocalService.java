@@ -11,6 +11,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,9 +74,21 @@ public class HomeworkLocalService implements HomeworkService {
     }
 
     @Override
-    public Homework getHomework(Integer id) {
+    public Homework getHomework(Integer id) throws IOException {
         LOG.debug(String.format("getHomework: id=%d", id));
-        return  homeworkRepository.findById(id).orElse(new Homework());
+        final Homework homework = homeworkRepository.findById(id).orElseThrow(
+                () -> new FileNotFoundException("File doesn't exist"));
+
+        homework.setData(getFileInputStream(homework));
+        return homework;
+    }
+
+    private FileInputStream getFileInputStream(Homework homework) throws FileNotFoundException {
+        final File file = new File(homework.getPath());
+        if (!file.exists()) {
+            throw new FileNotFoundException("No File found");
+        }
+        return new FileInputStream(file);
     }
 
     @Value("${folder_path}")
