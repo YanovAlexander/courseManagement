@@ -69,7 +69,7 @@ public class UserController {
             return "registration";
         }
 
-        return "login";
+        return "redirect:/login";
     }
 
     @ModelAttribute("userForm")
